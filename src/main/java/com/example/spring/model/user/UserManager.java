@@ -63,6 +63,5 @@ public class UserManager {
 	public void deleteCommentOnPost(Post post,Comment comment){
 		this.postDao.deleteCommentOnPost(this.user.getUsername(), post, comment);
 	}
-	
-	
+   
 }

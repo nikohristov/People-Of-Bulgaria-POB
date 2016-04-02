@@ -15,12 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 
 import com.example.spring.model.post.Post;
-
-
-
-
 
 @Entity
 @Table(name="users")
@@ -34,6 +31,8 @@ public class User {
 	private int id;
 	@Column(name="username",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
 	private String username;
+	
+	@Type(type="encryptedString")
 	@Column(name="password",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
 	private String password;
 	@Column(name="email",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
