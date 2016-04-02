@@ -15,11 +15,21 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.jasypt.hibernate4.type.EncryptedStringType;
 
 import com.example.spring.model.post.Post;
 
 @Entity
+@TypeDef(
+	    name="encryptedString", 
+	    typeClass=EncryptedStringType.class, 
+	    parameters= {
+	        @Parameter(name="encryptorRegisteredName", value="myHibernateStringEncryptor")
+	    }
+)
 @Table(name="users")
 public class User {
 	
@@ -27,13 +37,13 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="user_id")
+	@Column(name="user_id",columnDefinition="INT")
 	private int id;
 	@Column(name="username",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
 	private String username;
 	
 	@Type(type="encryptedString")
-	@Column(name="password",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
+	@Column(name="password",unique=false,nullable=false)
 	private String password;
 	@Column(name="email",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
 	private String email;
@@ -84,8 +94,7 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-
+	
 	public String getPassword() {
 		return password;
 	}

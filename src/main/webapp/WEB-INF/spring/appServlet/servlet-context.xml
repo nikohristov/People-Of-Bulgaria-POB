@@ -29,7 +29,7 @@
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/hibernateDB"/>
         <property name="username" value="root"/>
-        <property name="password" value="raze"/>
+        <property name="password" value="katikat1"/>
     </bean>	
     
     <bean id="sessionFactory"
@@ -48,5 +48,34 @@
 	    <constructor-arg>
 	        <ref bean="sessionFactory" />
 	    </constructor-arg>
-	</bean>    	
+	</bean>  
+	
+	<bean id="postDao" class="com.example.spring.dao.PostDAO">
+	    <constructor-arg>
+	        <ref bean="sessionFactory" />
+	    </constructor-arg>
+	</bean> 	
+	
+	<bean id="strongEncryptor"
+	    class="org.jasypt.encryption.pbe.PooledPBEStringEncryptor">
+	    <property name="algorithm">
+	        <value>PBEWithMD5AndTripleDES</value>
+	    </property>
+	    <property name="password">
+	        <value>jasypt</value>
+	    </property>
+	    <property name="poolSize">
+	        <value>4</value>
+	    </property>
+	 </bean>
+	  
+	 <bean id="hibernateStringEncryptor"
+	    class="org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor">
+	    <property name="registeredName">
+	        <value>myHibernateStringEncryptor</value>
+	    </property>
+	    <property name="encryptor">
+	        <ref bean="strongEncryptor" />
+	    </property>
+	 </bean>
 </beans>

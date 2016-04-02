@@ -1,7 +1,4 @@
 package com.example.spring.model.post;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

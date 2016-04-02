@@ -52,7 +52,7 @@ public class UserDAO implements IUserDAO {
 		//opiten.likedPosts.add(opit);
 		//opiten.usersWhoFollowed.add(opiten1);
 		//session.update(opiten);
-		session.get(User.class, "nikso");
+		//session.get(User.class, "nikso");
 		session.getTransaction().commit();
 		System.out.println("save user?");
 		
@@ -67,4 +67,98 @@ public class UserDAO implements IUserDAO {
 		return listUser;
 	}
 
+
+	@Override
+	public void registerNewUser(User user) {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(user);
+		session.getTransaction().commit();
+		session.close();
+	}
+
+
+	@Override
+	public List<User> getAllUsers() {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from com.example.spring.model.user.User");
+		@SuppressWarnings("unchecked")
+		List<User> allUsers = query.list();
+		session.close();
+		return allUsers;
+	}
+
+
+	@Override
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void followUser(User follower, String usernameOfFollowed) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void unfollowUser(User follower, String usernameOfFollowed) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void uploadPost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deletePost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void likePost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void unlikePost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void addCommentOnPost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteCommentOnPost(User user, Post post) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public User getUser(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	
 }

@@ -3,6 +3,9 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.example.spring.model.user">
+	<typedef name="encrypted" class="org.jasypt.hibernate4.type.EncryptedStringType">
+      <param name="encryptorRegisteredName">strongHibernateStringEncryptor</param>
+    </typedef>
 	<class name="User" table="users">
 		<id name="id" column="USER_ID">
 			<generator class="native"/>
