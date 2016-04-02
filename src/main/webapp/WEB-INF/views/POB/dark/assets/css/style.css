@@ -1,0 +1,179 @@
+﻿/*=============================================================
+    Authour URI: www.binarytheme.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% Free To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDIT US AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+
+/*=====================================
+   GENERAL STYLE SECTION
+    ===================================*/
+body {
+    font-size:14px;
+    line-height:25px;
+   background-color:#F9F9F9;
+   color:#F9F9F9;
+}
+.text-center {
+    text-align:center;
+}
+.sub-head {
+        padding-bottom:50px;
+        display:block;
+    }
+.pad-top-botm {
+    padding-top:50px;
+    padding-bottom:50px;
+}
+  
+h2 {
+    color:#ff0000;
+    font-weight:900;
+    
+}
+h3{
+    color:#159238;
+    
+}
+
+/*=====================================
+   NAV BAR STYLE SECTION
+    ===================================*/
+
+/*Menu border Color*/
+.navbar-default {
+border-color: #000;
+background-color:#242222;
+}
+/*Logo Image */
+.navbar-brand-logo {
+    max-height:60px;
+    padding-bottom:20px;
+}
+/*top-menu links color*/
+.navbar-default .navbar-nav > li > a {
+    color: #FFF;
+}
+/*top-menu links color on hover*/
+    .navbar-default .navbar-nav > li > a:hover {
+        color: #fff;
+    }
+
+/*top-menu links & margin*/    
+.navbar-nav > li > a {
+    margin: 5px 0px 5px 0px;
+}
+/*toggle styles*/ 
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background-color:#159238;
+}
+.navbar-default .navbar-toggle {
+    border:2px solid #159238;
+}
+.navbar-default .navbar-toggle .icon-bar {
+background-color: #fff;
+}
+/***********************
+ * Essential Structure *
+ ***********************/
+
+
+/***********************
+ * Essential Structure *
+ ***********************/
+.flexsearch--wrapper {
+	height: auto;
+	width: auto;
+	max-width: 100%;
+	overflow: hidden;
+	background: transparent;
+	margin: 0;
+	position: static;
+}
+	
+.flexsearch--form {
+	overflow: hidden;
+	position: relative;
+}
+	
+.flexsearch--input-wrapper {
+	padding: 0 66px 0 0; /* Right padding for submit button width */
+	overflow: hidden;
+}
+
+.flexsearch--input {
+  width: 100%;
+}
+
+/***********************
+ * Configurable Styles *
+ ***********************/
+.flexsearch {
+  padding: 0 25px 0 200px; /* Padding for other horizontal elements */
+}
+
+.flexsearch--input {
+  -webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+ 	height: 30px;
+	width:200px;
+  padding: 0 46px 0 10px;
+	border-color: #010101;
+  border-radius: 35px; /* (height/2) + border-width */
+  border-style: solid;
+	border-width: 5px;
+  margin-top: 15px;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+	font-size: 20px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+	
+.flexsearch--submit {
+  position: absolute;
+	right: 0;
+	top: -12px;
+	display: block;
+	width: 60px;
+	height: 60px;
+  padding: 0;
+  border: none;
+	margin-top: 20px; /* margin-top + border-width */
+  margin-right: 5px; /* border-width */
+	background: transparent;
+  color: #eee;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.flexsearch--input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.flexsearch--input:focus.flexsearch--submit {
+ 	color: #333; 
+}
+
+.flexsearch--submit:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+	color: #682233;  
+}
+
+input:-moz-placeholder {
+  color: #682233;
+}
+
+
