@@ -2,7 +2,9 @@ package com.example.spring.model.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
+import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
 
 public class UserManager {
@@ -11,6 +13,9 @@ public class UserManager {
 	
 	@Autowired
 	private IUserDAO userDao;
+	
+	@Autowired
+	private IPostDAO postDao;
 	
 	public UserManager(User user){
 		this.user = user;
@@ -51,6 +56,13 @@ public class UserManager {
 		this.userDao.unfollowUser(this.user,username);
 	}
 	
+	public void commentOnPost(Post post,Comment comment){
+		this.postDao.addCommentOnPost(this.user.getUsername(), post, comment);
+	}
+	
+	public void deleteCommentOnPost(Post post,Comment comment){
+		this.postDao.deleteCommentOnPost(this.user.getUsername(), post, comment);
+	}
 	
 	
 }
