@@ -43,8 +43,9 @@ public class Post {
 	private int countsOfLikes;
     @Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
    	private Date dateOfUpload;
+    @Column(name="path",columnDefinition="VARCHAR(50)",unique=true,nullable=true)
+   	private String path;
     
-    // TO DO ADD PATHS FOR PICTURE
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable( name="post_comment", 
@@ -139,6 +140,13 @@ public class Post {
 		this.user = user;
 	}
 
+	public void setPath(String path){
+		this.path=path;
+	}
+	public String getPath(){
+		return this.path;
+	}
+	
 	public Set<User> getUsersWhoLike() {
 		return usersWhoLike;
 	}

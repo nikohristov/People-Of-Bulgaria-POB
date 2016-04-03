@@ -2,10 +2,12 @@ package com.example.spring.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
+import com.example.spring.model.post.*;
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
+import com.example.spring.model.user.User;
 
 
 public class PostDAO implements IPostDAO {
@@ -16,6 +18,8 @@ public class PostDAO implements IPostDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
+	
+	
 	@Override
 	public List<Post> getAllPicsByCategory(String category) {
 		// TODO Auto-generated method stub
@@ -57,7 +61,19 @@ public class PostDAO implements IPostDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+	@Override
+	 public void addPost(Post p) {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(p);
+		session.getTransaction().commit();
+		session.close();
 	
-	
-	
+	}
+
 }
+
+	

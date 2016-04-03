@@ -8,6 +8,8 @@ import com.example.spring.model.post.Post;
 
 public interface IPostDAO {
 	
+    public  void addPost(Post p);
+	
 	public List<Post> getAllPicsByCategory(String category);
 	
 	public List<Post> getMostPopularPics();
