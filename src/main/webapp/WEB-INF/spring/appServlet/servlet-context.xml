@@ -23,6 +23,13 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+ 
+        <property name="basename" value="/WEB-INF/messages" />
+ 
+    </bean>
+	
 	<context:component-scan base-package="com.example.spring" />
 	
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">

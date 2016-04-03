@@ -14,10 +14,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.jasypt.hibernate4.type.EncryptedStringType;
 
 import com.example.spring.model.post.Post;
@@ -40,17 +43,29 @@ public class User {
 	@Column(name="user_id",columnDefinition="INT")
 	private int id;
 	@Column(name="username",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
+	@NotEmpty
+	@Size(min = 3, max = 10)
 	private String username;
 	
 	@Type(type="encryptedString")
 	@Column(name="password",unique=false,nullable=false)
+	@NotEmpty
+	@Size(min = 3, max = 10)
 	private String password;
+	
 	@Column(name="email",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
+	@Email
+	@NotEmpty
 	private String email;
+	
 	@Column(name="first_name",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
+	@NotEmpty
 	private String firstName;
+	
 	@Column(name="last_name",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
+	@NotEmpty
 	private String lastName;
+	
 	@Column(name="biography",columnDefinition="VARCHAR(50)",unique=false,nullable=true)
 	private String biography;
 	
