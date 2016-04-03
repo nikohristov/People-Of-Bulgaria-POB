@@ -155,8 +155,41 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public User getUser(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("from User where username=?");
+		User user=(User)query.setString(0,username);
+		session.close();
+		return user;
+	}
+
+
+	@Override
+	public boolean checkIfUsernameExists(String username) {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		String hql = "FROM com.example.spring.model.user.User WHERE username = :name";
+		Query query = session.createQuery(hql);
+		query.setParameter("name",username);
+		@SuppressWarnings("rawtypes")
+		List results = query.list();
+		if(results.size() == 0){
+			session.close();
+			return false;
+		}
+		session.close();
+		return true; 
+	}
+
+
+	@Override
+	public boolean checkIfEmailAddressExists(String email) {
+		for(User user : this.getAllUsers()){
+			if(user.getEmail().equals(email)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	

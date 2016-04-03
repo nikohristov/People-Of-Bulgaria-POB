@@ -33,4 +33,7 @@ public interface IUserDAO {
 	
 	public User getUser(String username);
 	
+	public boolean checkIfUsernameExists(String username);
+	
+	public boolean checkIfEmailAddressExists(String email);
 }
