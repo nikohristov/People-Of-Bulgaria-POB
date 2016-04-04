@@ -129,7 +129,10 @@ input[type=text]:focus {
     <hr class="sectionTitleRule">
     <hr class="sectionTitleRule2">
     <div class="section1Content">
-    <%User loggedUser=(User)request.getSession().getAttribute("loggedUser"); %>
+    <%
+      UserManager manager=(UserManager)request.getSession().getAttribute("loggedUser");
+      User loggedUser=manager.getLoggedUser();
+     %>
     
       <p><span>Username :</span><%= loggedUser.getUsername() %></p>
       <p><span>Email :</span><%=loggedUser.getEmail() %></p>

@@ -21,6 +21,10 @@ public class UserManager {
 		this.user = user;
 	}
 	
+	public User getLoggedUser(){
+		return this.user;
+	}
+	
 	//Methods on current user
 
 	public void updateProfile(User user){
