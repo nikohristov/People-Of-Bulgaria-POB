@@ -1,12 +1,9 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page session="false" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
- pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -28,7 +25,9 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-
+input[type=text]:focus {
+    width: 100%;
+}
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 1500px}
     
@@ -102,57 +101,49 @@ input[type=text] {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>
 </nav>
-<div class="container-fluid">
-  <div class="row content">
-    <div class="col-sm-3 sidenav">
-      <h4>My profile</h4>
-      <ul class="nav nav-pills nav-stacked">
-        <li ><a href="#section1">View Profile</a></li>
-        <li><a href="#section2">Change Profile</a></li>
-        <li class="active"><a href="#section3">Upload</a></li>
-        <li><a href="#section3">Followers</a></li>
-        <li><a href="#section3">Following</a></li>
-        <li><a href="#section3">My posts</a></li>
-        
-      </ul><br>
-     </div>
+
+  <ul class="nav nav-tabs">
+  
     <div class="col-sm-9">
-  <form:form method="POST" action="addPost" enctype="multipart/form-data">
-   <table>
-    <tr>
-        <td><form:label path="title">Title</form:label></td>
-        <td><form:input path="title" /></td>
-    </tr>
-    <tr>
-        <td><form:label path="description">Description</form:label></td>
-        <td><form:input path="description" /></td>
-    </tr>
-    <tr>
-     <tr>
-    <td>File to upload: <input type="file" name="file"></td>
-    </tr>
-        <td colspan="2">
-            <input type="submit" value="Submit"/>
-        </td>
-    </tr>
-</table>  
-</form:form>
-	
+    <div class="table-responsive">
+     <table class="table">
+      <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu 1 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Submenu 1-1</a></li>
+        <li><a href="#">Submenu 1-2</a></li>
+        <li><a href="#">Submenu 1-3</a></li>                        
+      </ul>
+    </li>
+   <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu 1 <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Submenu 1-1</a></li>
+        <li><a href="#">Submenu 1-2</a></li>
+        <li><a href="#">Submenu 1-3</a></li>                        
+      </ul>
+    </li>
  
-    
-
-      
-         
-   
-  </div>
-
-
+    <tr>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+      </tr>
+<tr>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+      </tr>
+  </table>
 </div>
+   
+
+
 </div>
 </body>
 </html>

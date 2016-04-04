@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    
-<!DOCTYPE html>
+@charset "UTF-8";
+
+#mainwrapper header {
+
+	<!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -640,20 +641,21 @@ footer {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">BOB</a>
+      <a class="navbar-brand" href="#">Portfolio</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Upload</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Contact</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
   </div>
@@ -668,46 +670,26 @@ footer {
       <input type="text" placeholder="Search">
     </div>
     <section id="mainContent"> 
-      <h4>Title: ${title} </h4>
-      <div id="bannerImage">
-        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-        </div>
+      <!--************************************************************************
+    Main Blog content starts here
+    ****************************************************************************-->
+      <h1>Title: ${title} </h1>
+      <div id="bannerImage"><img src="BlogPostAssets/images/SliderLayerImage.png" alt=""/></div>
       <p> Description: ${description}</p>
+      
+      <aside id="authorInfo"> 
+        <!-- The author information is contained here -->
+        <h2>Author Name</h2>
+        <p></p>
+      </aside>
     </section>
     
-      <form role="form">
-        <div class="form-group">
-          <textarea class="form-control" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-      </form>
-      <br><br>
-      
-      <p><span class="badge">2</span> Comments:</p><br>
-      
-      <div class="row">
-       
-        <div class="col-sm-10">
-          <h4>Anja <small>Sep 29, 2015, 9:12 PM</small></h4>
-          <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-        </div>
-        
-        <div class="col-sm-10">
-          <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
-          <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-          <p><span class="badge">1</span> Comment:</p><br>
-          <div class="row">
-            
-            
-          </div>
-        </div>
-      </div>
      
     
    
- 
+  </div>
+  <div id="footerbar"><!-- Small footerbar at the bottom --></div>
+</div>
       
       
      

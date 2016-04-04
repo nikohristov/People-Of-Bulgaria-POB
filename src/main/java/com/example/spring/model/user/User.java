@@ -48,7 +48,7 @@ public class User {
 	private String username;
 	
 	@Type(type="encryptedString")
-	@Column(name="password",unique=false,nullable=false)
+	@Column(name="password",columnDefinition="VARCHAR(255)",unique=false,nullable=false)
 	@NotEmpty
 	@Size(min = 3, max = 10)
 	private String password;

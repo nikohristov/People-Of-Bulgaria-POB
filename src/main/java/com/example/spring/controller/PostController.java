@@ -11,6 +11,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * Handles requests for the application file upload requests
- */
+
 
 
 @Controller
@@ -35,15 +35,17 @@ public class PostController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(PostController.class);
 
-	/**
-	 * Upload single file using Spring Controller
-	 */
 	
+	@RequestMapping(value="/")
+	public ModelAndView post() {
+		 return new ModelAndView("upload", "command", new Post());
+		
+	}
 	
 	 @RequestMapping(value = "/addPost", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
-		@RequestParam("file") MultipartFile file) {
+		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
 		 
 	      model.addAttribute("title", post.getTitle());
 	      model.addAttribute("description", post.getDescription());
@@ -55,15 +57,11 @@ public class PostController {
 					byte[] bytes = file.getBytes();
 
 					// Creating the directory to store file
-					File dir = new File("C:"+File.separator+"Users"+File.separator+"User"+File.separator+"Desktop");
-					if (!dir.exists()){
-						Boolean result=dir.mkdirs();
-						System.out.println(result);
-					}
-
-					// Create the file on server
-					File serverFile = new File(dir.getAbsolutePath()
-							+ File.separator + title);
+					String path = req.getSession().getServletContext().getRealPath("/resources/");
+					File f = new File(path);
+		             
+					File serverFile = new File(f.getAbsolutePath()
+							+ File.separator + title + ".png");
 					BufferedOutputStream stream = new BufferedOutputStream(
 							new FileOutputStream(serverFile));
 					stream.write(bytes);
@@ -72,11 +70,16 @@ public class PostController {
 					logger.info("Server File Location="
 							+ serverFile.getAbsolutePath());
 					post.setPath(serverFile.getAbsolutePath());
-
+					
+					
+					
+					System.out.println(post.getPath());
 					model.addAttribute("pic","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
+					
 				} catch (Exception e) {
 					model.addAttribute("pic","You failed to upload " + title + " => " + e.getMessage());
+					System.out.println(e.getMessage());
 				}
 			} else {
 				model.addAttribute("pic","You failed to upload " + title

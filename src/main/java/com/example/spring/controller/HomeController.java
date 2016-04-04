@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.spring.dao.IUserDAO;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.user.User;
+import com.example.spring.model.user.UserManager;
 
 
 
@@ -29,13 +30,12 @@ public class HomeController {
 	@Autowired
 	private IUserDAO userDao;
 	
-	@RequestMapping(value="/post")
-	public ModelAndView post() {
-		 return new ModelAndView("upload", "command", new Post());
-		
+	@RequestMapping(value="/home")
+	public String getHomepage(){
+		return "homepage";
 	}
 
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/gg")
 	public ModelAndView home() {
 		// List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("logIn");
@@ -59,7 +59,7 @@ public class HomeController {
 		}
 
 		if (this.userDao.checkIfUsernameExists(userForm.getUsername())) {
-			model.addAttribute("ErrorRegMessage", "The username is already exists !");
+			model.addAttribute("ErrorRegMessage", "This username already exists !");
 			System.out.println("exists");
 			return "register";
 		} else if (this.userDao.checkIfEmailAddressExists(userForm.getEmail())) {
@@ -68,7 +68,7 @@ public class HomeController {
 		}
 
 		this.userDao.registerNewUser(userForm);
-		model.addAttribute("ErrorMessage", "Congrats you was registered succesfully !");
+		model.addAttribute("ErrorMessage", "Congrats you were registered succesfully !");
 		
 		return "logIn";
 	}
@@ -84,6 +84,7 @@ public class HomeController {
 			return "logIn";
 		} else {
 			// send to main
+			request.getSession().setAttribute("loggedUser", new UserManager(user));
 			System.out.println("true");
 		}
 		return "logIn";

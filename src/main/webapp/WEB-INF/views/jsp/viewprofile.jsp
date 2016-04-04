@@ -1,12 +1,10 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page session="false" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
- pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+ <%@ page import="com.example.spring.model.user.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -28,7 +26,9 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-
+input[type=text]:focus {
+    width: 100%;
+}
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 1500px}
     
@@ -93,9 +93,9 @@ input[type=text] {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
-        <li class="active"><a href="#">Upload</a></li>
+        <li><a href="#">Home</a></li>
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a href="#">Upload</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
@@ -112,47 +112,40 @@ input[type=text] {
     <div class="col-sm-3 sidenav">
       <h4>My profile</h4>
       <ul class="nav nav-pills nav-stacked">
-        <li ><a href="#section1">View Profile</a></li>
+        <li class="active"><a href="#section1">View Profile</a></li>
         <li><a href="#section2">Change Profile</a></li>
-        <li class="active"><a href="#section3">Upload</a></li>
+        <li><a href="#section2">Upload</a></li>
         <li><a href="#section3">Followers</a></li>
         <li><a href="#section3">Following</a></li>
         <li><a href="#section3">My posts</a></li>
-        
       </ul><br>
      </div>
     <div class="col-sm-9">
-  <form:form method="POST" action="addPost" enctype="multipart/form-data">
-   <table>
-    <tr>
-        <td><form:label path="title">Title</form:label></td>
-        <td><form:input path="title" /></td>
-    </tr>
-    <tr>
-        <td><form:label path="description">Description</form:label></td>
-        <td><form:input path="description" /></td>
-    </tr>
-    <tr>
-     <tr>
-    <td>File to upload: <input type="file" name="file"></td>
-    </tr>
-        <td colspan="2">
-            <input type="submit" value="Submit"/>
-        </td>
-    </tr>
-</table>  
-</form:form>
-	
- 
+  
+     <section class="mainContent"> 
+  <!-- Contact details -->
+  <section class="section1">
+    <h2 class="sectionTitle">Content Holder 1</h2>
+    <hr class="sectionTitleRule">
+    <hr class="sectionTitleRule2">
+    <div class="section1Content">
+    <%User loggedUser=(User)request.getSession().getAttribute("loggedUser"); %>
+    
+      <p><span>Username :</span><%= loggedUser.getUsername() %></p>
+      <p><span>Email :</span><%=loggedUser.getEmail() %></p>
+      <p><span>First Name :</span><%=loggedUser.getFirstName() %> </p>
+      <p><span>Last Name :</span><%=loggedUser.getLastName() %></p>
+      <p><span>Biography :</span> <%=loggedUser.getBiography() %></p>
+    </div>
+  </section>
     
 
       
          
-   
+    </section>
   </div>
 
 
-</div>
-</div>
+
 </body>
 </html>
