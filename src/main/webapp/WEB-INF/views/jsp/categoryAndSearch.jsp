@@ -87,10 +87,10 @@ input[type=text]:focus {
     <div class="collapse navbar-collapse" id="myNavbar">
 <form>
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class=""><a href="#">Home</a></li>
         <li><a href="#">Profile</a></li>
         <li class=""><a href="#">Upload</a></li>
-        <li class=""><a href="category">Category</a></li>
+        <li class="active"><a href="#">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
@@ -111,7 +111,52 @@ input[type=text]:focus {
     </div>
   </div>
 </nav>
-  
+<table>
+<tr>
+<td>
+ &nbsp&nbsp&nbsp&nbsp&nbsp
+</td>
+<td>
+Choose category<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+  </ul>
+</div>
+</td>
+<td>
+ &nbsp&nbsp&nbsp&nbsp&nbsp
+</td>
+<td>
+Order by<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Action</a></li>
+    <li><a href="#">Another action</a></li>
+    <li><a href="#">Something else here</a></li>
+  </ul>
+</div>
+</td>
+<td>
+ &nbsp&nbsp&nbsp&nbsp&nbsp
+</td>
+<td>
+<br>
+ <button type="button" class="btn btn-default">Search</button>
+</td>
+</tr>
+</table>
+<br><br>
+&nbsp&nbsp&nbsp&nbsp&nbsp TAGS:
+
 <center>
 <table>
 	<tr>
@@ -130,6 +175,24 @@ input[type=text]:focus {
 <footer class="container-fluid text-center">
   <p>Footer Text</p>
 </footer>
-
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 </body>
 </html>
