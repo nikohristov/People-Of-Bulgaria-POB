@@ -30,15 +30,16 @@ public class HomeController {
 	@Autowired
 	private IUserDAO userDao;
 	
-	@RequestMapping(value="/home")
-	public String getHomepage(){
-		return "homepage";
+	@RequestMapping(value="/jj")
+	public ModelAndView post() {
+		 return new ModelAndView("upload", "command", new Post());
+		
 	}
 
-	@RequestMapping(value = "/gg")
+	@RequestMapping(value={"", "/", "index"})
 	public ModelAndView home() {
 		// List<User> listUsers = userDao.list();
-		ModelAndView model = new ModelAndView("logIn");
+		ModelAndView model = new ModelAndView("index");
 		// model.addObject("userList", listUsers);
 
 		return model;
@@ -59,7 +60,7 @@ public class HomeController {
 		}
 
 		if (this.userDao.checkIfUsernameExists(userForm.getUsername())) {
-			model.addAttribute("ErrorRegMessage", "This username already exists !");
+			model.addAttribute("ErrorRegMessage", "The username already exists !");
 			System.out.println("exists");
 			return "register";
 		} else if (this.userDao.checkIfEmailAddressExists(userForm.getEmail())) {
@@ -68,9 +69,14 @@ public class HomeController {
 		}
 
 		this.userDao.registerNewUser(userForm);
-		model.addAttribute("ErrorMessage", "Congrats you were registered succesfully !");
+		model.addAttribute("ErrorMessage", "Congrats you was registered succesfully !");
 		
-		return "logIn";
+		return "login";
+	}
+	
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public ModelAndView goToLogIn() {
+		return new ModelAndView("login");
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -81,13 +87,12 @@ public class HomeController {
 		if (user == null) {
 			model.addAttribute("ErrorMessage", "Wrong username or password !");
 			System.out.println("false");
-			return "logIn";
+			return "login";
 		} else {
-			// send to main
+			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));
-			System.out.println("true");
+			return "homepage";
 		}
-		return "logIn";
 	}
 	private User validateIfUserExists(HttpServletRequest request) {
 		String username = request.getParameter("username");
