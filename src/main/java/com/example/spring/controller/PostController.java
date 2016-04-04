@@ -36,7 +36,7 @@ public class PostController {
 			.getLogger(PostController.class);
 
 	
-	@RequestMapping(value="/")
+	@RequestMapping(value="/ss")
 	public ModelAndView post() {
 		 return new ModelAndView("upload", "command", new Post());
 		
