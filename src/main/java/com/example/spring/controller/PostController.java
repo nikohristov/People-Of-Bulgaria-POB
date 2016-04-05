@@ -16,11 +16,9 @@ import java.io.FileOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.SessionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Date;
@@ -32,17 +30,16 @@ public class PostController {
 	
 	@Autowired
 	private IPostDAO postDAO;
-	private static final Logger logger = LoggerFactory
-			.getLogger(PostController.class);
+
 
 	
-	@RequestMapping(value="/ss")
+	@RequestMapping(value="/upload")
 	public ModelAndView post() {
 		 return new ModelAndView("upload", "command", new Post());
 		
 	}
 	
-	 @RequestMapping(value = "/addPost", method = RequestMethod.POST)
+	 @RequestMapping(value = "/post", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
@@ -64,13 +61,12 @@ public class PostController {
 					stream.write(bytes);
 					stream.close();
 
-					logger.info("Server File Location="
-							+ f.getAbsolutePath());
+				
 					//setting path and date
 					post.setDateOfUpload(new Date());
 					post.setPath(f.getAbsolutePath());
 					//adding post in database
-					postDAO.addPost(post);
+					this.postDAO.addPost(post);
 					
 					
 					

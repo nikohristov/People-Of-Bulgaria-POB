@@ -1,33 +1,15 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page session="false" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
- pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <style>
-input[type=text] {
-    width: 130px;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    background-color: white;
-    background-image: url('searchicon.png');
-    background-position: 10px 10px; 
-    background-repeat: no-repeat;
-    padding: 12px 20px 12px 40px;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
 
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 1500px}
@@ -89,20 +71,21 @@ input[type=text] {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">BOB</a>
+      <a class="navbar-brand" href="#">Portfolio</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
-        <li class="active"><a href="#">Upload</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Gallery</a></li>
+        <li><a href="#">Contact</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -114,50 +97,32 @@ input[type=text] {
       <ul class="nav nav-pills nav-stacked">
         <li ><a href="viewprofile">View Profile</a></li>
         <li><a href="changeprofile">Change Profile</a></li>
-        <li class="active"><a href="upload">Upload</a></li>
+         <li><a href="upload">Upload</a></li>
         <li><a href="#section3">Followers</a></li>
         <li><a href="#section3">Following</a></li>
-        <li><a href="myposts">My posts</a></li>
-        
+        <li class="active"><a href="myposts">My posts</a></li>
       </ul><br>
      </div>
     <div class="col-sm-9">
-    <!-- action="gcs/western-figure-126418/" -->
-  <form:form method="POST" action="post" enctype="multipart/form-data">
-   <table>
+    <section class="section1">
+    <h2 class="sectionTitle">My posts</h2>
+    <div class="table-responsive">
+  <table class="table">
     <tr>
-        <td><form:label path="title">Title</form:label></td>
-        <td><form:input path="title" /></td>
-    </tr>
-    <tr>
-        <td><form:label path="description">Description</form:label></td>
-        <td><form:input path="description" /></td>
-    </tr>
-     <tr>
-        <td><form:label path="category">Category</form:label></td>
-        <td><form:input path="category" /></td>
-    </tr>
-    <tr>
-     <tr>
-    <td>File to upload: <input type="file" name="file"></td>
-    </tr>
-        <td colspan="2">
-            <input type="submit" value="Submit"/>
-        </td>
-    </tr>
-</table>  
-</form:form>
-	
- 
-    
-
-      
-         
-   
-  </div>
-
-
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+      </tr>
+<tr>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
+      </tr>
+  </table>
 </div>
-</div>
-</body>
-</html>
+    </section>
+    </div>
+    </div>
+    </div>
+    </body>
+    </html>

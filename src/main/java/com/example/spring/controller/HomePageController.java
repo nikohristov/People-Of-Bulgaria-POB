@@ -17,9 +17,6 @@ public class HomePageController {
 		return "categoryAndSearch";
 	}
 	
-	@RequestMapping(value="/viewProfile", method=RequestMethod.GET)
-	public String viewProfile(){
-		return "viewprofile";
-	}
+	
 	
 }

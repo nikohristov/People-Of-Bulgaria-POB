@@ -114,10 +114,10 @@ input[type=text]:focus {
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">View Profile</a></li>
         <li><a href="changeProfile">Change Profile</a></li>
-        <li><a href="#section2">Upload</a></li>
+        <li><a href="upload">Upload</a></li>
         <li><a href="#section3">Followers</a></li>
         <li><a href="#section3">Following</a></li>
-        <li><a href="#section3">My posts</a></li>
+        <li><a href="myposts">My posts</a></li>
       </ul><br>
      </div>
     <div class="col-sm-9">

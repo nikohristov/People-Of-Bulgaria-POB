@@ -3,7 +3,7 @@ package com.example.spring.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,13 +30,8 @@ public class HomeController {
 	@Autowired
 	private IUserDAO userDao;
 	
-	@RequestMapping(value="/jj")
-	public ModelAndView post() {
-		 return new ModelAndView("upload", "command", new Post());
-		
-	}
 
-	@RequestMapping(value={"", "/", "index"})
+	@RequestMapping(value={"", "/", "/index"})
 	public ModelAndView home() {
 		// List<User> listUsers = userDao.list();
 		ModelAndView model = new ModelAndView("index");
@@ -53,7 +48,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String doLogin(@Valid @ModelAttribute("userForm") User userForm, BindingResult result, Model model) {
+	public String doLogin( @ModelAttribute("userForm") User userForm, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
 			return "register";
@@ -71,12 +66,12 @@ public class HomeController {
 		this.userDao.registerNewUser(userForm);
 		model.addAttribute("ErrorMessage", "Congrats you was registered succesfully !");
 		
-		return "login";
+		return "logIn";
 	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public ModelAndView goToLogIn() {
-		return new ModelAndView("login");
+		return new ModelAndView("logIn");
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -87,7 +82,7 @@ public class HomeController {
 		if (user == null) {
 			model.addAttribute("ErrorMessage", "Wrong username or password !");
 			System.out.println("false");
-			return "login";
+			return "logIn";
 		} else {
 			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));

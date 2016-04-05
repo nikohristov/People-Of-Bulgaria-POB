@@ -1,9 +1,11 @@
 package com.example.spring.model.user;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
+import com.example.spring.dao.UserDAO;
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
 
@@ -19,6 +21,7 @@ public class UserManager {
 	
 	public UserManager(User user){
 		this.user = user;
+		
 	}
 	
 	public User getLoggedUser(){

@@ -18,19 +18,27 @@ public class ProfileController {
 		return "changeprofile";
 	}
 	
+	@RequestMapping(value="/viewProfile", method=RequestMethod.GET)
+	public String viewProfile(){
+		return "viewprofile";
+	}
+	@RequestMapping(value="/myposts", method=RequestMethod.GET)
+	public String showMyPosts(){
+		return "myposts";
+	}
+	
 	@RequestMapping(value="/doChangeProfile")
 	public String doChangeProfile(HttpServletRequest request) {
 		
-		User loggedUser=(User) request.getSession().getAttribute("loggedUser");
-		UserManager man= new UserManager(loggedUser);
-		User updatedUser= new User();
-		updatedUser.setFirstName(request.getParameter("firstname"));
-		updatedUser.setLastName(request.getParameter("lastname"));
-		updatedUser.setPassword(request.getParameter("password"));
-		updatedUser.setEmail(request.getParameter("email"));
-		updatedUser.setBiography(request.getParameter("biography"));
-		
-		man.updateProfile(updatedUser);
+		 UserManager manager=(UserManager)request.getSession().getAttribute("loggedUser");
+	     User updatedUser=new User();
+			updatedUser.setFirstName(request.getParameter("firstname"));
+			updatedUser.setLastName(request.getParameter("lastname"));
+			updatedUser.setPassword(request.getParameter("password"));
+			updatedUser.setEmail(request.getParameter("email"));
+			updatedUser.setBiography(request.getParameter("biography"));
+			
+		  manager.updateProfile(updatedUser);
 		
 		 return "viewprofile";
 		
