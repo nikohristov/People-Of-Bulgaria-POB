@@ -43,7 +43,7 @@ public class Post {
 	private int countsOfLikes;
     @Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
    	private Date dateOfUpload;
-    @Column(name="path",columnDefinition="VARCHAR(50)",unique=true,nullable=true)
+    @Column(name="path",columnDefinition="VARCHAR(150)",unique=true,nullable=true)
    	private String path;
     
     
