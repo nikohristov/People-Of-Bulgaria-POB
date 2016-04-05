@@ -113,7 +113,7 @@ input[type=text]:focus {
       <h4>My profile</h4>
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">View Profile</a></li>
-        <li><a href="#section2">Change Profile</a></li>
+        <li><a href="changeProfile">Change Profile</a></li>
         <li><a href="#section2">Upload</a></li>
         <li><a href="#section3">Followers</a></li>
         <li><a href="#section3">Following</a></li>

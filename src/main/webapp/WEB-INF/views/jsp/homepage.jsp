@@ -85,10 +85,10 @@ input[type=text]:focus {
       <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-<form>
+<form action="searchByTags" method="get">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
+        <li class="active"><a href="">Home</a></li>
+        <li><a href="viewProfile">Profile</a></li>
         <li class=""><a href="#">Upload</a></li>
         <li class=""><a href="category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
@@ -98,10 +98,10 @@ input[type=text]:focus {
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li>
-  <input type="text" name="search" placeholder="Search..">
+  <input type="text" name="searchTags" placeholder="Search..">
 </li>
 <li>
-  <button type="button" class="btn btn-default">Search</button>
+  <button type="submit" class="btn btn-default">Search</button>
 </li>
 </ul>
 </form>

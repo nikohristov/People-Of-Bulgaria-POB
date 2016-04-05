@@ -85,12 +85,12 @@ input[type=text]:focus {
       <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-<form>
+<form action="searchByTags" method="get">
       <ul class="nav navbar-nav">
-        <li class=""><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
+        <li class=""><a href="homepage">Home</a></li>
+        <li><a href="viewProfile">Profile</a></li>
         <li class=""><a href="#">Upload</a></li>
-        <li class="active"><a href="#">Category</a></li>
+        <li class="active"><a href="category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
@@ -98,10 +98,10 @@ input[type=text]:focus {
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li>
-  <input type="text" name="search" placeholder="Search..">
+  <input type="text" name="searchTags" placeholder="Search..">
 </li>
 <li>
-  <button type="button" class="btn btn-default">Search</button>
+  <button type="submit" class="btn btn-default">Search</button>
 </li>
 </ul>
 </form>
@@ -111,49 +111,45 @@ input[type=text]:focus {
     </div>
   </div>
 </nav>
+<form action="searchBy" method="get">
 <table>
 <tr>
 <td>
  &nbsp&nbsp&nbsp&nbsp&nbsp
 </td>
 <td>
-Choose category<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Dropdown
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-  </ul>
+<div class="form-group">
+  <label for="sel1">Choose category</label>
+  <select class="form-control" id="sel1" name="category">
+    <option>All</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+  </select>
 </div>
 </td>
 <td>
  &nbsp&nbsp&nbsp&nbsp&nbsp
 </td>
 <td>
-Order by<div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Dropdown
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">Action</a></li>
-    <li><a href="#">Another action</a></li>
-    <li><a href="#">Something else here</a></li>
-  </ul>
+<div class="form-group" >
+  <label for="sel1">Order By</label>
+  <select class="form-control" id="sel1" name="sortBy">
+    <option>Date</option>
+    <option>Likes</option>
+    <option>Popular</option>
+  </select>
 </div>
 </td>
 <td>
  &nbsp&nbsp&nbsp&nbsp&nbsp
 </td>
 <td>
-<br>
- <button type="button" class="btn btn-default">Search</button>
+ <button type="submit" class="btn btn-default">Search</button>
 </td>
 </tr>
 </table>
+</form>
 <br><br>
 &nbsp&nbsp&nbsp&nbsp&nbsp TAGS:
 
