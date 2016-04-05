@@ -2,8 +2,11 @@ package com.example.spring.controller;
 
 
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.user.User;
@@ -30,13 +34,16 @@ public class HomeController {
 	@Autowired
 	private IUserDAO userDao;
 	
+	@Autowired
+	private IPostDAO postDao;
 
 	@RequestMapping(value={"", "/", "/index"})
 	public ModelAndView home() {
-		// List<User> listUsers = userDao.list();
-		ModelAndView model = new ModelAndView("index");
-		// model.addObject("userList", listUsers);
-
+		ModelAndView model = new ModelAndView();
+		model.setViewName("index");
+		List<Post> postsToShow = new ArrayList<Post>();
+		postsToShow	= this.postDao.getPicsForIndexPage();
+		model.addObject("toShow", postsToShow);
 		return model;
 	}
 	
@@ -48,7 +55,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "register", method = RequestMethod.POST)
-	public String doLogin( @ModelAttribute("userForm") User userForm, BindingResult result, Model model) {
+	public String doLogin(@Valid @ModelAttribute("userForm") User userForm, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
 			return "register";
@@ -66,12 +73,12 @@ public class HomeController {
 		this.userDao.registerNewUser(userForm);
 		model.addAttribute("ErrorMessage", "Congrats you was registered succesfully !");
 		
-		return "logIn";
+		return "login";
 	}
 	
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public ModelAndView goToLogIn() {
-		return new ModelAndView("logIn");
+		return new ModelAndView("login");
 	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -82,7 +89,7 @@ public class HomeController {
 		if (user == null) {
 			model.addAttribute("ErrorMessage", "Wrong username or password !");
 			System.out.println("false");
-			return "logIn";
+			return "login";
 		} else {
 			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));

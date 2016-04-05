@@ -1,5 +1,12 @@
+<%@page import="org.springframework.ui.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.spring.model.post.*" %>
+<%! int count = 0;
+	List<Post> toShow = null;
+	Post post = null;
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,28 +68,40 @@
   
 <div class="container-fluid text-center">    
   <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <p></p>
+    <div class="col-sm-1 ">
+
     </div>
-    <div class="col-sm-8 text-center"> 
+    <div class="col-sm-10 text-center"> 
       <h1>Welcome</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-<div class="table-responsive">
-  <table class="table">
-    <tr>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-      </tr>
-<tr>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-        <td><img src="cinqueterre.jpg" class="img-rounded" alt="Cinque Terre" width="304" height="236"></td>
-      </tr>
-  </table>
+       <div class="center-block">
+       <h2>Image Gallery</h2>
+
+<%toShow =(List<Post>)request.getAttribute("toShow");%>       
+<c:forEach var="i" begin="0" end="2" step="1">
+ 
+ <div class="container">
+	  <div class="row">
+	  <c:forEach var="i" begin="0" end="2" step="1"> 
+	  <%
+	  	if(count < 4){
+	  		post = toShow.get(count++);
+	  	}	
+	  %>
+	    <div class="col-md-4">
+	      <a  class="thumbnail">
+	        <p><%=post.getTitle()%></p>
+	        <c:set var="title" value="<%=post.getTitle()%>"/>    
+	        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+	      </a>
+	    </div>
+	    </c:forEach>
+	  </div>
+</div>
+</c:forEach>
 </div>
     </div>
-    <div class="col-sm-2 sidenav">
+    <div class="col-sm-1">
       <p></p>
     </div>
   </div>
@@ -93,6 +112,6 @@
   	<a href="register"><button type="button" class="btn btn-primary">Sign in</button></a>
   </p>
 </footer>
-
+<%count = 0;%>
 </body>
 </html>
