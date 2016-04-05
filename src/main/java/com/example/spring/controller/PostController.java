@@ -6,10 +6,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import com.example.spring.model.user.User;
 import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
 import com.example.spring.model.post.Post;
+import com.example.spring.model.user.UserManager;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,6 +33,11 @@ public class PostController {
 	private IPostDAO postDAO;
 
 
+	@RequestMapping(value="/getPost")
+	public String getPost(){
+		
+		return "post";
+	}
 	
 	@RequestMapping(value="/upload")
 	public ModelAndView post() {
@@ -60,16 +66,8 @@ public class PostController {
 							new FileOutputStream(f));
 					stream.write(bytes);
 					stream.close();
-
+					configureAndAddPost(req,post,f);
 				
-					//setting path and date
-					post.setDateOfUpload(new Date());
-					post.setPath(f.getAbsolutePath());
-					//adding post in database
-					this.postDAO.addPost(post);
-					
-					
-					
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -86,4 +84,16 @@ public class PostController {
 
 	      return "post";
 	   }
+
+	 
+	private void configureAndAddPost(HttpServletRequest req, Post post,File f) {
+		post.setDateOfUpload(new Date());
+		post.setPath(f.getAbsolutePath());
+		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
+		User loggedUser=man.getLoggedUser();
+		post.setUser(loggedUser);
+		loggedUser.getPostsOfUser().add(post);
+		this.postDAO.addPost(post);
+		
+	}
 }
