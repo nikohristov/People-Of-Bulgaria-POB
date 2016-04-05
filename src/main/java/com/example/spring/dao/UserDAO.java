@@ -81,7 +81,6 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public List<User> getAllUsers() {
 		Session session = this.sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from com.example.spring.model.user.User");
 		@SuppressWarnings("unchecked")
 		List<User> allUsers = query.list();
@@ -156,7 +155,6 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public User getUser(String username) {
 		Session session = this.sessionFactory.openSession();
-		session.beginTransaction();
 		Query query = session.createQuery("from User where username=?");
 		User user=(User)query.setString(0,username);
 		session.close();
@@ -167,7 +165,6 @@ public class UserDAO implements IUserDAO {
 	@Override
 	public boolean checkIfUsernameExists(String username) {
 		Session session = this.sessionFactory.openSession();
-		session.beginTransaction();
 		String hql = "FROM com.example.spring.model.user.User WHERE username = :name";
 		Query query = session.createQuery(hql);
 		query.setParameter("name",username);

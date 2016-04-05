@@ -12,9 +12,11 @@ public interface IPostDAO {
 	
 	public List<Post> getAllPicsByCategory(String category);
 	
-	public List<Post> getMostPopularPics();
-	
 	public List<Post> getAllPicsByTags(String[] args);
+	
+	public List<Post> getAllPicsByDate();
+	
+	public List<Post> getAllPics();
 	
 	public void addCommentOnPost(String username,Post post,Comment comment);
 	

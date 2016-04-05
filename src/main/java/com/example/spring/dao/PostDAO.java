@@ -2,8 +2,12 @@ package com.example.spring.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+
 import com.example.spring.model.post.*;
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
@@ -20,22 +24,29 @@ public class PostDAO implements IPostDAO {
 
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Post> getAllPicsByCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.openSession();
+		Query query = session.createQuery("from Post where category=?");
+		query.setString(0,category);
+		List<Post> postsToShow = query.list();
+		session.close();
+		return postsToShow;
 	}
-
-	@Override
-	public List<Post> getMostPopularPics() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public List<Post> getAllPicsByTags(String[] args) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = this.sessionFactory.openSession();
+		String hql = "select distinct a from Post a " +
+		                "join a.tagsOfPost t " +
+		                "where t.title in (:tags)";
+		Query query = session.createQuery(hql);
+		query.setParameterList("tags", args);
+		@SuppressWarnings("unchecked")
+		List<Post> toShow = query.list();
+		session.close();
+		return toShow;
 	}
 
 	@Override
@@ -72,6 +83,31 @@ public class PostDAO implements IPostDAO {
 		session.getTransaction().commit();
 		session.close();
 	
+	}
+
+
+
+	@Override
+	public List<Post> getAllPicsByDate() {
+		Session session = this.sessionFactory.openSession();
+		Criteria cr = session.createCriteria(Post.class);
+		cr.addOrder(Order.asc("dateOfUpload"));
+		@SuppressWarnings("unchecked")
+		List<Post> result = cr.list();
+		session.close();
+		return result;
+	}
+
+
+
+	@Override
+	public List<Post> getAllPics() {
+		Session session = this.sessionFactory.openSession();
+		Query query = session.createQuery("from com.example.spring.model.post.Post");
+		@SuppressWarnings("unchecked")
+		List<Post> allPosts = query.list();
+		session.close();
+		return allPosts;
 	}
 
 }
