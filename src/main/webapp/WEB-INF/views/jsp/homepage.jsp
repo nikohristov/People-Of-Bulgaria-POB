@@ -1,6 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@page import="org.springframework.ui.Model"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.spring.model.post.*" %>
+<%! int count = 0;
+	List<Post> toShow = null;
+	Post post = null;
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -113,23 +119,66 @@ input[type=text]:focus {
 </nav>
   
 <center>
-<table>
-	<tr>
-		<td>
-			<img src="cinqueterre.jpg" alt="Cinque Terre" style="width:150px;height:150px">
-		</td>
-	</tr>
-</table>
+
+<%toShow =(List<Post>)request.getAttribute("toShow");%>       
+<c:forEach var="i" begin="0" end="2" step="1">
+ 
+ <div class="container">
+	  <div class="row">
+	  <c:forEach var="i" begin="0" end="2" step="1"> 
+	  <%
+	  	if(count < toShow.size()){
+	  	   post = toShow.get(count);
+	  	%>
+	  		<div class="col-md-4">
+	      <a  class="thumbnail">
+	        <p><%=post.getTitle()%></p>
+	        <c:set var="title" value="<%=post.getTitle()%>"/>    
+	        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+	      </a>
+	    </div>
+	  		
+	  <%count++;}
+	  %>
+	    </c:forEach>
+	  </div>
+</div>
+</c:forEach>
+
+
+
+
 	<form>
-		<c:forEach begin="0" end="9" varStatus="loop">
-  			<button type="submit" value="${loop.begin + loop.count}" name="numOfPage" class="btn btn-default">${loop.begin + loop.count}</button>
-		</c:forEach>
+		<ul class="pagination pagination-lg">
+		<c:if test="${begin > 1}">
+			 <li><a href="previous" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		        <input type="hidden" name="begin" value="${begin}">
+		      	</a>
+	    	</li>
+	    </c:if>
+	    	<c:set var="page" value="${page}"/> 
+	    	<c:forEach var="i" begin="${begin}" end="${begin+4}" step="1"> 
+	    	
+	  			<li class=" <c:if test="${page == i}"> active </c:if>">
+	  				<a href="viewPage?pageId=${i}" id="${i}"><c:out value="${i}"/>
+	  					
+	  				</a>
+	  			</li>
+	  		
+	  		</c:forEach>
+  			<li>
+		      <a href="#" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+      		</a>
+    		</li>
+		</ul>
 	</form>
 </center>
 
 <footer class="container-fluid text-center">
   <p>Footer Text</p>
 </footer>
-
+<%count = 0;%>
 </body>
 </html>

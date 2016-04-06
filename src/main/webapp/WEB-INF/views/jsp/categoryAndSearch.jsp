@@ -162,9 +162,13 @@ input[type=text]:focus {
 	</tr>
 </table>
 	<form>
-		<c:forEach begin="0" end="9" varStatus="loop">
-  			<button type="submit" value="${loop.begin + loop.count}" name="numOfPage" class="btn btn-default">${loop.begin + loop.count}</button>
-		</c:forEach>
+		<ul class="pagination pagination-lg">
+  			<li><a href="#">1</a></li>
+  			<li><a href="#">2</a></li>
+  			<li><a href="#">3</a></li>
+  			<li><a href="#">4</a></li>
+  			<li><a href="#">5</a></li>
+		</ul>
 	</form>
 </center>
 

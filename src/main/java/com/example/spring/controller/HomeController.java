@@ -93,6 +93,8 @@ public class HomeController {
 		} else {
 			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));
+			request.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
+			request.setAttribute("toShow", this.postDao.getPicsForIndexPage());
 			return "homepage";
 		}
 	}

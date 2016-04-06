@@ -67,7 +67,7 @@ public class PostController {
 					stream.write(bytes);
 					stream.close();
 					configureAndAddPost(req,post,f);
-				
+			
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -92,7 +92,7 @@ public class PostController {
 		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
 		User loggedUser=man.getLoggedUser();
 		post.setUser(loggedUser);
-		loggedUser.getPostsOfUser().add(post);
+		//loggedUser.getPostsOfUser().add(post);
 		this.postDAO.addPost(post);
 		
 	}
