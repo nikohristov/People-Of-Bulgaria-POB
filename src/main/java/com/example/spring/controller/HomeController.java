@@ -5,6 +5,7 @@ package com.example.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -31,19 +32,26 @@ import com.example.spring.model.user.UserManager;
 @Controller
 public class HomeController {
 	
+	private static boolean isGenerate = false;
+	
 	@Autowired
 	private IUserDAO userDao;
 	
 	@Autowired
 	private IPostDAO postDao;
-
+		
+	
 	@RequestMapping(value={"", "/", "/index"})
-	public ModelAndView home() {
+	public ModelAndView home(HttpServletRequest req) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		List<Post> postsToShow = new ArrayList<Post>();
 		postsToShow	= this.postDao.getPicsForIndexPage();
 		model.addObject("toShow", postsToShow);
+		if(!isGenerate){
+			req.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
+			isGenerate = true;
+		}
 		return model;
 	}
 	
@@ -93,9 +101,7 @@ public class HomeController {
 		} else {
 			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));
-			request.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
-			request.setAttribute("toShow", this.postDao.getPicsForIndexPage());
-			return "homepage";
+			return "redirect:homepage";
 		}
 	}
 	private User validateIfUserExists(HttpServletRequest request) {

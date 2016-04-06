@@ -151,27 +151,35 @@ input[type=text]:focus {
 	<form>
 		<ul class="pagination pagination-lg">
 		<c:if test="${begin > 1}">
-			 <li><a href="previous" aria-label="Previous">
+			 <li><a href="viewPage?pageId=${begin-1}&b=${begin}&e=${end}" aria-label="Previous">
 		        <span aria-hidden="true">&laquo;</span>
-		        <input type="hidden" name="begin" value="${begin}">
 		      	</a>
 	    	</li>
 	    </c:if>
 	    	<c:set var="page" value="${page}"/> 
-	    	<c:forEach var="i" begin="${begin}" end="${begin+4}" step="1"> 
-	    	
-	  			<li class=" <c:if test="${page == i}"> active </c:if>">
-	  				<a href="viewPage?pageId=${i}" id="${i}"><c:out value="${i}"/>
-	  					
-	  				</a>
-	  			</li>
-	  		
+	    	<c:forEach var="i" begin="${begin}" end="${end}" step="1"> 
+	  			<c:choose>
+    				<c:when test="${page == i}">
+        				<li class="active">
+	  						<a id="${i}"><c:out value="${i}"/>
+	  						</a>
+	  					</li>
+    				</c:when>    
+    				<c:otherwise>
+    					<li>
+	  						<a href="viewPage?pageId=${i}&b=${begin}&e=${end}&next=${next}" id="${i}"><c:out value="${i}"/>
+	  						</a>
+	  					</li>
+    				</c:otherwise>
+				</c:choose>
 	  		</c:forEach>
+	  		<c:if test="${next == true}">
   			<li>
-		      <a href="#" aria-label="Next">
+		      <a href="viewPage?pageId=${end+1}&b=${begin}&e=${end}" aria-label="Next">
 		        <span aria-hidden="true">&raquo;</span>
       		</a>
     		</li>
+    		</c:if>
 		</ul>
 	</form>
 </center>
