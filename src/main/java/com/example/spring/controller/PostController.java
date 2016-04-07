@@ -58,11 +58,8 @@ public class PostController {
 			
 		}
 		
-		 request.getSession().setAttribute("post",currentPost);
-		 model.addAttribute("post",currentPost);
-	     Comment newComment= new Comment();
-	     model.addAttribute("comment",newComment);
-		 return "post";
+		
+		return "forward:/getPost/"+pic_id;
 		
 	}
 	//getting image by id and adding a comment object
@@ -77,7 +74,7 @@ public class PostController {
 		return "post";
 	}
 	//go to upload.jsp
-	@RequestMapping(value="/upload")
+	@RequestMapping(value="/upload", method = RequestMethod.GET)
 	public ModelAndView post(Model model) {
 		HashSet<String> categories=generateCategories();
 		model.addAttribute("categories",categories);
@@ -86,7 +83,7 @@ public class PostController {
 	}
 	
     //post an image 
-	@RequestMapping(value = "/post", method = RequestMethod.POST)
+	@RequestMapping(value = "/post", method = RequestMethod.GET)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
@@ -104,7 +101,6 @@ public class PostController {
 							new FileOutputStream(f));
 					stream.write(bytes);
 					stream.close();
-<<<<<<< HEAD
 					
 					//setting post characteristics and uploading post
 					UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
@@ -116,10 +112,6 @@ public class PostController {
 					
 				
 					
-=======
-					configureAndAddPost(req,post,f);
-			
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -137,25 +129,12 @@ public class PostController {
 	      return "forward:/getPost/"+post.getId();
 	   }
 
-<<<<<<< HEAD
 	private HashSet<String> generateCategories() {
 		HashSet<String> categories=new HashSet<>();
 		categories.add("Nature");
 		categories.add("People");
 		categories.add("Pets");
 		return categories;
-=======
-	 
-	private void configureAndAddPost(HttpServletRequest req, Post post,File f) {
-		post.setDateOfUpload(new Date());
-		post.setPath(f.getAbsolutePath());
-		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
-		User loggedUser=man.getLoggedUser();
-		post.setUser(loggedUser);
-		//loggedUser.getPostsOfUser().add(post);
-		this.postDAO.addPost(post);
-		
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 	}
 	
 }

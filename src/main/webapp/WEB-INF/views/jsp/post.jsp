@@ -645,9 +645,9 @@ footer {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="homepage">Home</a></li>
-        <li><a href="viewProfile">Profile</a></li>
-        <li><a href="upload">Upload</a></li>
+        <li class="active"><a href="http://localhost:8084/FinalProject/homepage">Home</a></li>
+        <li><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
+        <li><a href="http://localhost:8084/FinalProject/upload">Upload</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
@@ -677,7 +677,7 @@ footer {
     </section>
     
     
-    <form:form action="comment/${post.id}" commandName="comment" method="post" modelAttribute="comment">
+    <form:form action="/FinalProject/getPost/comment/${post.id}" method="post" modelAttribute="comment">
         <div class="form-group">
           <form:label path="description">Comment</form:label>
           <form:input path="description" />

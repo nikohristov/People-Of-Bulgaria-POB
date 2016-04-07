@@ -93,16 +93,16 @@ input[type=text]:focus {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="#">Home</a></li>
-        <li class="active"><a href="#">Profile</a></li>
-        <li><a href="#">Upload</a></li>
+        <li><a href="http://localhost:8084/FinalProject/homepage">Home</a></li>
+        <li class="active"><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
+        <li><a href="http://localhost:8084/FinalProject/upload">Upload</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>

@@ -27,7 +27,6 @@
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
-
 input[type=text]:focus {
     width: 100%;
 }
@@ -56,27 +55,16 @@ input[type=text]:focus {
       .row.content {height: auto;} 
     }
 	
-
 .mainContent .section1 .section1Content {
-
 	font-family: ProximaNova;
-
 	font-size: 14px;
-
 	font-weight: 100;
-
 	color: rgba(208,207,207,1.00);
-
 }
-
 .mainContent .section1 .section1Content span {
-
 	color: rgba(146,146,146,1.00);
-
 	font-family: sans-serif;
-
 }
-
   </style>
 </head>
 <body>
@@ -89,10 +77,10 @@ input[type=text]:focus {
     <div class="collapse navbar-collapse" id="myNavbar">
 <form action="searchByTags" method="get">
       <ul class="nav navbar-nav">
-        <li class=""><a href="homepage">Home</a></li>
-        <li><a href="viewProfile">Profile</a></li>
-        <li class=""><a href="#">Upload</a></li>
-        <li class="active"><a href="category">Category</a></li>
+        <li class=""><a href="http://localhost:8084/FinalProject/homepage">Home</a></li>
+        <li><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
+        <li class=""><a href="http://localhost:8084/FinalProject/upload">Upload</a></li>
+        <li class="active"><a href="http://localhost:8084/FinalProject/category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>

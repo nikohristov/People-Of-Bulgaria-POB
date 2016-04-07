@@ -71,21 +71,20 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">Portfolio</a>
+      <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Gallery</a></li>
-        <li><a href="#">Contact</a></li>
+         <li class="active"><a href="http://localhost:8084/FinalProject/homepage">Home</a></li>
+        <li><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
+        <li><a href="http://localhost:8084/FinalProject/upload">Upload</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>
@@ -97,7 +96,7 @@
       <ul class="nav nav-pills nav-stacked">
         <li><a href="viewprofile">View Profile</a></li>
         <li class="changeprofile"><a href="changeprofile">Change Profile</a></li>
-         <li><a href="update">Upload</a></li>
+         <li><a href="upload">Upload</a></li>
         <li><a href="#section3">Followers</a></li>
         <li><a href="#section3">Following</a></li>
         <li><a href="myposts">My posts</a></li>
