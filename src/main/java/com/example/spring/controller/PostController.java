@@ -59,7 +59,11 @@ public class PostController {
 		}
 		
 		
+<<<<<<< HEAD
 		return "forward:/getPost/"+pic_id;
+=======
+		 return "forward:/getPost"+pic_id;
+>>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 		
 	}
 	//getting image by id and adding a comment object
@@ -109,9 +113,13 @@ public class PostController {
 					post.setDateOfUpload(new Date());
 					post.setPath(f.getAbsolutePath());
 					this.userDAO.uploadPost(loggedUser, post);
-					
 				
+<<<<<<< HEAD
 					
+=======
+			
+>>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
+>>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -136,5 +144,11 @@ public class PostController {
 		categories.add("Pets");
 		return categories;
 	}
+<<<<<<< HEAD
+=======
+=======
+	 
+
+>>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 	
 }
