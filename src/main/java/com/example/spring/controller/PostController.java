@@ -110,11 +110,7 @@ public class PostController {
 					post.setDateOfUpload(new Date());
 					post.setPath(f.getAbsolutePath());
 					this.userDAO.uploadPost(loggedUser, post);
-					
 				
-					
-=======
-					configureAndAddPost(req,post,f);
 			
 >>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 					System.out.println(post.getPath());
@@ -141,18 +137,9 @@ public class PostController {
 		categories.add("People");
 		categories.add("Pets");
 		return categories;
+	}
 =======
 	 
-	private void configureAndAddPost(HttpServletRequest req, Post post,File f) {
-		post.setDateOfUpload(new Date());
-		post.setPath(f.getAbsolutePath());
-		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
-		User loggedUser=man.getLoggedUser();
-		post.setUser(loggedUser);
-		//loggedUser.getPostsOfUser().add(post);
-		this.postDAO.addPost(post);
-		
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
-	}
+
 	
 }
