@@ -99,7 +99,7 @@ public class PostDAO implements IPostDAO {
 	public List<Post> getAllPicsByDate() {
 		Session session = this.sessionFactory.openSession();
 		Criteria cr = session.createCriteria(Post.class);
-		cr.addOrder(Order.asc("dateOfUpload"));
+		cr.addOrder(Order.desc("dateOfUpload"));
 		@SuppressWarnings("unchecked")
 		List<Post> result = cr.list();
 		session.close();
@@ -118,10 +118,13 @@ public class PostDAO implements IPostDAO {
 		return allPosts;
 	}
 
+<<<<<<< HEAD
 
 
 	
 
+=======
+>>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 }
 
 	

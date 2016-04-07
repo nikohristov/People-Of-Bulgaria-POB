@@ -104,6 +104,7 @@ public class PostController {
 							new FileOutputStream(f));
 					stream.write(bytes);
 					stream.close();
+<<<<<<< HEAD
 					
 					//setting post characteristics and uploading post
 					UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
@@ -115,6 +116,10 @@ public class PostController {
 					
 				
 					
+=======
+					configureAndAddPost(req,post,f);
+			
+>>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -132,12 +137,25 @@ public class PostController {
 	      return "forward:/getPost/"+post.getId();
 	   }
 
+<<<<<<< HEAD
 	private HashSet<String> generateCategories() {
 		HashSet<String> categories=new HashSet<>();
 		categories.add("Nature");
 		categories.add("People");
 		categories.add("Pets");
 		return categories;
+=======
+	 
+	private void configureAndAddPost(HttpServletRequest req, Post post,File f) {
+		post.setDateOfUpload(new Date());
+		post.setPath(f.getAbsolutePath());
+		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
+		User loggedUser=man.getLoggedUser();
+		post.setUser(loggedUser);
+		//loggedUser.getPostsOfUser().add(post);
+		this.postDAO.addPost(post);
+		
+>>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 	}
 	
 }

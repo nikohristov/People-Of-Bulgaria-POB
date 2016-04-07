@@ -5,6 +5,7 @@ package com.example.spring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -31,19 +32,29 @@ import com.example.spring.model.user.UserManager;
 @Controller
 public class HomeController {
 	
+	private static boolean isGenerate = false;
+	private static int posts_on_page = 9;
+	
 	@Autowired
 	private IUserDAO userDao;
 	
 	@Autowired
 	private IPostDAO postDao;
-
+		
+	
 	@RequestMapping(value={"", "/", "/index"})
-	public ModelAndView home() {
+	public ModelAndView home(HttpServletRequest req) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		List<Post> postsToShow = new ArrayList<Post>();
-		postsToShow	= this.postDao.getPicsForIndexPage();
 		model.addObject("toShow", postsToShow);
+		if(!isGenerate){
+			req.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
+			isGenerate = true;
+		}
+		for(int i=0; i<posts_on_page; i++){
+			postsToShow.add(((List<Post>) req.getServletContext().getAttribute("allPostsByDate")).get(i));
+		}
 		return model;
 	}
 	
@@ -93,7 +104,7 @@ public class HomeController {
 		} else {
 			request.getSession().setMaxInactiveInterval(10*60);
 			request.getSession().setAttribute("loggedUser", new UserManager(user));
-			return "homepage";
+			return "redirect:homepage";
 		}
 	}
 	private User validateIfUserExists(HttpServletRequest request) {

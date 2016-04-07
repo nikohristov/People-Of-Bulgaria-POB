@@ -119,9 +119,12 @@ input[type=text]:focus {
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
 					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+<<<<<<< HEAD
 					         <form method="GET" action="/FinalProject/getPost/${post.id}">
 						        <input type="submit" value="View Post">
 						     </form>
+=======
+>>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 					      </a>
 				     </c:if>
 				    </div>
