@@ -18,12 +18,7 @@ public interface IPostDAO {
 	
 	public List<Post> getAllPics();
 	
-<<<<<<< HEAD
-	
 	public void addCommentOnPost(Post post,Comment comment);
-=======
-	public void addCommentOnPost(String username,Post post,Comment comment);
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 	
 	public void deleteCommentOnPost(Post post,Comment comment);
 	

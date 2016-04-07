@@ -15,8 +15,6 @@ import com.example.spring.dao.IUserDAO;
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.user.UserManager;
-import com.google.api.client.http.HttpRequest;
-import com.google.appengine.repackaged.org.joda.time.LocalDate;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -33,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 
 
@@ -59,11 +58,8 @@ public class PostController {
 		}
 		
 		
-<<<<<<< HEAD
+
 		return "forward:/getPost/"+pic_id;
-=======
-		 return "forward:/getPost"+pic_id;
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 		
 	}
 	//getting image by id and adding a comment object
@@ -73,9 +69,10 @@ public class PostController {
 		 request.getSession().setAttribute("post",currentPost);
 		 model.addAttribute("post",currentPost);
 	     Comment comment= new Comment();
+	     User user = this.userDAO.getUser(currentPost.getUser().getId());
+	     model.addAttribute("userOfPost", user);
 	     model.addAttribute("comment",comment);
-
-		return "post";
+	     return "post";
 	}
 	//go to upload.jsp
 	@RequestMapping(value="/upload", method = RequestMethod.GET)
@@ -87,7 +84,7 @@ public class PostController {
 	}
 	
     //post an image 
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
+	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
@@ -114,12 +111,6 @@ public class PostController {
 					post.setPath(f.getAbsolutePath());
 					this.userDAO.uploadPost(loggedUser, post);
 				
-<<<<<<< HEAD
-					
-=======
-			
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -133,7 +124,7 @@ public class PostController {
 						+ " because the file was empty.");
 			}
 		
-
+	      ((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
 	      return "forward:/getPost/"+post.getId();
 	   }
 
@@ -144,11 +135,6 @@ public class PostController {
 		categories.add("Pets");
 		return categories;
 	}
-<<<<<<< HEAD
-=======
-=======
-	 
 
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 	
 }

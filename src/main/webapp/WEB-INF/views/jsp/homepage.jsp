@@ -78,9 +78,9 @@ input[type=text]:focus {
 <form action="searchByTags" method="get">
       <ul class="nav navbar-nav">
         <li class="active"><a href="">Home</a></li>
-        <li><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
-        <li class="http://localhost:8084/FinalProject/upload"><a href="#">Upload</a></li>
-        <li class="http://localhost:8084/FinalProject/?"><a href="category">Category</a></li>
+        <li><a href="viewProfile?Id=${loggedUser.getLoggedUser().id}">Profile</a></li>
+        <li class=""><a href="#">Upload</a></li>
+        <li class=""><a href="category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>

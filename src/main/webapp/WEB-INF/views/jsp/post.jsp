@@ -673,7 +673,8 @@ footer {
       <div id="bannerImage">
         <img alt="image"  src="<c:url value="resources/${post.title}.png"/>">
         </div>
-      <p> Description: ${post.description}</p>
+      <p class="lead"> Description: ${post.description}</p>
+      <p class="lead">${post.dateOfUpload} by <a href="/FinalProject/viewProfile?Id=${userOfPost.id}">${userOfPost.username}</a> </p>
     </section>
     
     

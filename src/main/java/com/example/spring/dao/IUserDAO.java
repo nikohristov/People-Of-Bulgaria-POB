@@ -15,7 +15,7 @@ public interface IUserDAO {
 	
 	public void updateUser(User user);
 	
-	public void followUser(User follower,String usernameOfFollowed);
+	public User followUser(User follower,int following_id);
 	
 	public void unfollowUser(User follower,String usernameOfFollowed);
 	
@@ -32,6 +32,8 @@ public interface IUserDAO {
 	public void deleteCommentOnPost(User user,Post post);
 	
 	public User getUser(String username);
+	
+	public User getUser(int id);
 	
 	public boolean checkIfUsernameExists(String username);
 	

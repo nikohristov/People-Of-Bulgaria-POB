@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.user.User;
 
-
+@Transactional
 public class UserDAO implements IUserDAO {
 	private SessionFactory sessionFactory;
 
@@ -92,13 +92,6 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void followUser(User follower, String usernameOfFollowed) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -194,6 +187,31 @@ public class UserDAO implements IUserDAO {
 			}
 		}
 		return false;
+	}
+
+
+	@Override
+	public User getUser(int id) {
+		Session session = this.sessionFactory.openSession();
+		User user = (User) session.get(User.class, id);
+		session.close();
+		return user;
+	}
+
+
+	@Override
+	public User followUser(User follower,int following_id) {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		User following = (User) session.get(User.class, following_id);
+		follower.getUsersWhoFollowed().add(following);
+		following.getUsersWhoFollowing().add(follower);
+		session.update(follower);
+		session.update(following);
+		System.out.println("save");
+		session.getTransaction().commit();
+		session.close();
+		return following;
 	}
 
 	
