@@ -51,29 +51,6 @@ public class HomePageController {
 		return "categoryAndSearch";
 	}
 	
-	@RequestMapping(value="/previous",method=RequestMethod.GET)
-	public String goToPageWithPosts(HttpServletRequest req){
-		
-		List<Post> allPosts = (List<Post>) req.getServletContext().getAttribute("allPostsByDate");
-		String begin = req.getParameter("begin");
-		int start = Integer.parseInt(begin);
-		int page = start - 1;
-		start -= 5;
-		List<Post> toShow = new ArrayList<Post>();
-		
-		int indexOfFirstPost = page*posts_on_page-posts_on_page;
-		int indexOfLastPost = page*posts_on_page;
-		
-		for(int i=indexOfFirstPost; i<indexOfLastPost; i++){
-			toShow.add(allPosts.get(i));
-		}
-		
-		req.setAttribute("begin", start);
-		req.setAttribute("page", page);
-		req.setAttribute("toShow", toShow);
-		return "homepage";
-	}
-	
 	@RequestMapping(value="/viewPage",method=RequestMethod.GET)
 	public String goToPage(HttpServletRequest req,Model model){
 		String page = req.getParameter("pageId");
