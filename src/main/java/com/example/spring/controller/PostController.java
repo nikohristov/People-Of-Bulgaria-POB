@@ -58,11 +58,8 @@ public class PostController {
 			
 		}
 		
-		 request.getSession().setAttribute("post",currentPost);
-		 model.addAttribute("post",currentPost);
-	     Comment newComment= new Comment();
-	     model.addAttribute("comment",newComment);
-		 return "post";
+		
+		 return "forward:/getPost"+pic_id;
 		
 	}
 	//getting image by id and adding a comment object
