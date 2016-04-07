@@ -7,9 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.example.spring.model.post.Post;
+import com.example.spring.model.user.User;
 
 @Entity
 @Table(name="comments")
@@ -32,8 +37,17 @@ public class Comment {
 	@Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
 	private Date dateOfUpload;
 	
-	//Getters and Setters
+	 @ManyToOne
+	 @JoinColumn(name="post_id", nullable=false)
+	 private Post post;
+
 	
+	public Post getPost() {
+		return post;
+	}
+	public void setPost(Post post) {
+		this.post = post;
+	}
 	public int getId() {
 		return id;
 	}

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.Date;
+import java.util.HashSet;
 
 
 
@@ -43,38 +44,49 @@ public class PostController {
 	@Autowired
 	private IUserDAO userDAO;
 
-
+   //adding a comment to post
 	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.POST)
-	public String getPostById(@Valid @ModelAttribute("comment") Comment comment,Model model, BindingResult result,@PathVariable("pic_id") Integer pic_id,HttpServletRequest request){
+	public String addCommentOnPost(@Valid @ModelAttribute("comment") Comment comment,ModelMap model, BindingResult result,@PathVariable("pic_id") Integer pic_id,HttpServletRequest request){
+		Post currentPost=this.postDAO.getPost(pic_id);
 		if (!result.hasErrors()) {
 			comment.setDateOfUpload(new Date());
 			UserManager man= (UserManager)request.getSession().getAttribute("loggedUser");
 			comment.setUsername(man.getLoggedUser().getUsername());
-			Post currentPost=this.postDAO.getPost(pic_id);
+			comment.setPost(currentPost);
 			man.commentOnPost(currentPost, comment, this.postDAO);
+			currentPost=this.postDAO.getPost(pic_id);
+			
 		}
 		
-		return "forward:/getPost/"+pic_id;
+		 request.getSession().setAttribute("post",currentPost);
+		 model.addAttribute("post",currentPost);
+	     Comment newComment= new Comment();
+	     model.addAttribute("comment",newComment);
+		 return "post";
 		
 	}
-	
+	//getting image by id and adding a comment object
 	@RequestMapping(value="/getPost/{pic_id}")
 	public String getPost(@PathVariable("pic_id") Integer id,ModelMap model,HttpServletRequest request){
 		 Post currentPost=this.postDAO.getPost(id);
 		 request.getSession().setAttribute("post",currentPost);
+		 model.addAttribute("post",currentPost);
 	     Comment comment= new Comment();
 	     model.addAttribute("comment",comment);
 
 		return "post";
 	}
-	
+	//go to upload.jsp
 	@RequestMapping(value="/upload")
-	public ModelAndView post() {
-		 return new ModelAndView("upload", "command", new Post());
+	public ModelAndView post(Model model) {
+		HashSet<String> categories=generateCategories();
+		model.addAttribute("categories",categories);
+		return new ModelAndView("upload", "command", new Post());
 		
 	}
 	
-	 @RequestMapping(value = "/post", method = RequestMethod.POST)
+    //post an image 
+	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
@@ -100,6 +112,7 @@ public class PostController {
 					post.setDateOfUpload(new Date());
 					post.setPath(f.getAbsolutePath());
 					this.userDAO.uploadPost(loggedUser, post);
+					
 				
 					
 					System.out.println(post.getPath());
@@ -116,9 +129,15 @@ public class PostController {
 			}
 		
 
-	      return "post";
+	      return "forward:/getPost/"+post.getId();
 	   }
 
-	 
+	private HashSet<String> generateCategories() {
+		HashSet<String> categories=new HashSet<>();
+		categories.add("Nature");
+		categories.add("People");
+		categories.add("Pets");
+		return categories;
+	}
 	
 }

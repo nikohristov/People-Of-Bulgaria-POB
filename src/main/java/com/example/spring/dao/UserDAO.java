@@ -3,6 +3,7 @@ package com.example.spring.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -112,10 +113,11 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void uploadPost(User user, Post post) {
-		user.getPostsOfUser().add(post);
+		Hibernate.initialize(user.getPostsOfUser().add(post));
 		Session session = this.sessionFactory.openSession();
 		session.beginTransaction();
 		session.save(post);
+		System.out.println("saved post");
 		session.saveOrUpdate(user);
 	    session.getTransaction().commit();
 		session.close();

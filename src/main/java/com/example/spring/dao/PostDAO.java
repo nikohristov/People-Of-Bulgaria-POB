@@ -53,10 +53,11 @@ public class PostDAO implements IPostDAO {
 	@Override
 	public void addCommentOnPost(Post post, Comment comment) {
 		Session session = this.sessionFactory.openSession();
-		Hibernate.initialize(post.getCommentsOfPost().add(comment));
 		session.beginTransaction();
 		session.save(comment);
-		session.saveOrUpdate(post);
+		Hibernate.initialize(post.getCommentsOfPost().add(comment));
+		session.update(post);
+		System.out.println(post.getId());
 	    session.getTransaction().commit();
 		session.close();
 		
