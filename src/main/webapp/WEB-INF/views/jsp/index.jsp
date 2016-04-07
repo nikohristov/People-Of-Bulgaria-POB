@@ -1,12 +1,8 @@
 <%@page import="org.springframework.ui.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.example.spring.model.post.*" %>
-<%! int count = 0;
-	List<Post> toShow = null;
-	Post post = null;
-%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,28 +73,28 @@
        <div class="center-block">
        <h2>Image Gallery</h2>
 
-<%toShow =(List<Post>)request.getAttribute("toShow");%>       
-<c:forEach var="i" begin="0" end="2" step="1">
- 
- <div class="container">
-	  <div class="row">
-	  <c:forEach var="i" begin="0" end="2" step="1"> 
-	  <%
-	  	if(count < 4){
-	  		post = toShow.get(count++);
-	  	}	
-	  %>
-	    <div class="col-md-4">
-	      <a  class="thumbnail">
-	        <p><%=post.getTitle()%></p>
-	        <c:set var="title" value="<%=post.getTitle()%>"/>    
-	        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-	      </a>
-	    </div>
-	    </c:forEach>
-	  </div>
-</div>
-</c:forEach>
+		<c:if test="${fn:length(toShow) gt 0}">
+			<c:forEach  varStatus="status" begin="0" end="2">
+				<div class="container">
+				<div class="row">
+				  <c:forEach varStatus="status2" begin="${status.getIndex()*2}" end="${status.getIndex()*2+2}">	
+					<div class="col-md-4">
+					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
+					<c:if test="${fn:length(toShow) gt index}">
+					      <a  class="thumbnail">
+					      <c:set var="post" value="${toShow[index]}"/>
+					      <c:set var="title" value="${post.title}"/>
+					        <p><c:out value="${title}" /></p>
+					        <c:set var="title" value="${title}"/>    
+					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+					      </a>
+				     </c:if>
+				    </div>
+				  </c:forEach>	 
+				</div>
+				</div>	    
+			</c:forEach>	
+		</c:if>
 </div>
     </div>
     <div class="col-sm-1">
@@ -112,6 +108,5 @@
   	<a href="register"><button type="button" class="btn btn-primary">Sign in</button></a>
   </p>
 </footer>
-<%count = 0;%>
 </body>
 </html>

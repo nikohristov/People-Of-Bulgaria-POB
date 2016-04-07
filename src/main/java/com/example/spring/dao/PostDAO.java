@@ -110,20 +110,6 @@ public class PostDAO implements IPostDAO {
 		return allPosts;
 	}
 
-
-
-	@Override
-	public List<Post> getPicsForIndexPage() {
-		Session session = this.sessionFactory.openSession();
-		Criteria cr = session.createCriteria(Post.class);
-		cr.addOrder(Order.desc("dateOfUpload"));
-		cr.setMaxResults(15);
-		@SuppressWarnings("unchecked")
-		List<Post> result = cr.list();
-		session.close();
-		return result;
-	}
-
 }
 
 	

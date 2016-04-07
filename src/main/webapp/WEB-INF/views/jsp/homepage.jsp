@@ -1,12 +1,8 @@
 <%@page import="org.springframework.ui.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.example.spring.model.post.*" %>
-<%! int count = 0;
-	List<Post> toShow = null;
-	Post post = null;
-%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -120,35 +116,31 @@ input[type=text]:focus {
   
 <center>
 
-<%toShow =(List<Post>)request.getAttribute("toShow");%>       
-<c:forEach var="i" begin="0" end="2" step="1">
- 
- <div class="container">
-	  <div class="row">
-	  <c:forEach var="i" begin="0" end="2" step="1"> 
-	  <%
-	  	if(count < toShow.size()){
-	  	   post = toShow.get(count);
-	  	%>
-	  		<div class="col-md-4">
-	      <a  class="thumbnail">
-	        <p><%=post.getTitle()%></p>
-	        <c:set var="title" value="<%=post.getTitle()%>"/>    
-	        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-	      </a>
-	    </div>
-	  		
-	  <%count++;}
-	  %>
-	    </c:forEach>
-	  </div>
-</div>
-</c:forEach>
+	
+		<c:if test="${fn:length(toShow) gt 0}">
+			<c:forEach  varStatus="status" begin="0" end="2">
+				<div class="container">
+				<div class="row">
+				  <c:forEach varStatus="status2" begin="${status.getIndex()*2}" end="${status.getIndex()*2+2}">	
+					<div class="col-md-4">
+					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
+					<c:if test="${fn:length(toShow) gt index}">
+					      <a  class="thumbnail">
+					      <c:set var="post" value="${toShow[index]}"/>
+					      <c:set var="title" value="${post.title}"/>
+					        <p><c:out value="${title}" /></p>
+					        <c:set var="title" value="${title}"/>    
+					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+					      </a>
+				     </c:if>
+				    </div>
+				  </c:forEach>	 
+				</div>
+				</div>	    
+			</c:forEach>	
+		</c:if>
 
-
-
-
-	<form>
+	
 		<ul class="pagination pagination-lg">
 		<c:if test="${begin > 1}">
 			 <li><a href="viewPage?pageId=${begin-1}&b=${begin}&e=${end}" aria-label="Previous">
@@ -181,12 +173,11 @@ input[type=text]:focus {
     		</li>
     		</c:if>
 		</ul>
-	</form>
+
 </center>
 
 <footer class="container-fluid text-center">
   <p>Footer Text</p>
 </footer>
-<%count = 0;%>
 </body>
 </html>

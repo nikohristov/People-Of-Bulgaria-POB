@@ -183,7 +183,6 @@ input[type=text]:focus {
 				</div>	    
 			</c:forEach>	
 		</c:if>
-	<form>
 	<c:if test="${begin != null}">
 		<ul class="pagination pagination-lg">
 		<c:if test="${begin > 1}">
@@ -218,7 +217,6 @@ input[type=text]:focus {
     		</c:if>
 		</ul>
 	</c:if>
-	</form>
 </center>
 
 <footer class="container-fluid text-center">

@@ -33,6 +33,7 @@ import com.example.spring.model.user.UserManager;
 public class HomeController {
 	
 	private static boolean isGenerate = false;
+	private static int posts_on_page = 9;
 	
 	@Autowired
 	private IUserDAO userDao;
@@ -46,11 +47,13 @@ public class HomeController {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
 		List<Post> postsToShow = new ArrayList<Post>();
-		postsToShow	= this.postDao.getPicsForIndexPage();
 		model.addObject("toShow", postsToShow);
 		if(!isGenerate){
 			req.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
 			isGenerate = true;
+		}
+		for(int i=0; i<posts_on_page; i++){
+			postsToShow.add(((List<Post>) req.getServletContext().getAttribute("allPostsByDate")).get(i));
 		}
 		return model;
 	}

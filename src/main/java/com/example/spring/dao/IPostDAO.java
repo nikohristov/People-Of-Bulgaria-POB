@@ -18,8 +18,6 @@ public interface IPostDAO {
 	
 	public List<Post> getAllPics();
 	
-	public List<Post> getPicsForIndexPage();
-	
 	public void addCommentOnPost(String username,Post post,Comment comment);
 	
 	public void deleteCommentOnPost(String username,Post post,Comment comment);

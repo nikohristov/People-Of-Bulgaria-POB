@@ -27,7 +27,9 @@ public class HomePageController {
 	public String goToHomePage(Model model,HttpServletRequest req){
 		System.out.println("LAAAAAAAAAAAAAAAAAA");
 		List<Post> postsToShow = new ArrayList<Post>();
-		postsToShow = this.postDao.getPicsForIndexPage();
+		for(int i=0; i<posts_on_page; i++){
+			postsToShow.add(((List<Post>) req.getServletContext().getAttribute("allPostsByDate")).get(i));
+		}
 		System.out.println(postsToShow.size());
 		
 		if((((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()/posts_on_page) > count_pages){
@@ -63,11 +65,13 @@ public class HomePageController {
 		int indexOfFirstPost = pageToView*posts_on_page-posts_on_page;
 		int indexOfLastPost = pageToView*posts_on_page;
 		int numberOfPages = 0;
+		List<Post> allPosts = (List<Post>) req.getServletContext().getAttribute("allPostsByDate");
 		
-		if(((((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()%posts_on_page)) != 0){
-			numberOfPages = ((((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()/posts_on_page) + 1);
+		
+		if(((allPosts.size()%posts_on_page)) != 0){
+			numberOfPages = ((allPosts.size()/posts_on_page) + 1);
 		}else{
-			numberOfPages = ((((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()/posts_on_page));
+			numberOfPages = ((allPosts.size()/posts_on_page));
 		}
 		
 		if(pageToView > end){
@@ -89,7 +93,6 @@ public class HomePageController {
 		System.out.println(indexOfFirstPost);
 		System.out.println(indexOfLastPost);
 		
-		List<Post> allPosts = (List<Post>) req.getServletContext().getAttribute("allPostsByDate");
 		List<Post> toShow = new ArrayList<Post>();
 		if(indexOfFirstPost < allPosts.size() && indexOfLastPost > allPosts.size()){
 			for(int i=indexOfFirstPost; i<allPosts.size(); i++){
