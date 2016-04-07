@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+     <%@ page import="com.example.spring.model.post.*" %>
+    <%@ page import="com.example.spring.model.comment.*" %>
     
 <!DOCTYPE html>
 <html lang="en">
@@ -26,9 +29,7 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
-    width: 100%;
-}
+
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
     .row.content {height: 1500px}
     
@@ -644,23 +645,23 @@ footer {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Profile</a></li>
-        <li><a href="#">Upload</a></li>
+        <li class="active"><a href="homepage">Home</a></li>
+        <li><a href="viewProfile">Profile</a></li>
+        <li><a href="upload">Upload</a></li>
 <li><form>
   <input type="text" name="search" placeholder="Search..">
 </form>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
    
-   
+
  
   <div id="content">
     <div class="notOnDesktop"> 
@@ -668,39 +669,38 @@ footer {
       <input type="text" placeholder="Search">
     </div>
     <section id="mainContent"> 
-      <h4>Title: ${title} </h4>
+      <h4>Title: ${post.title} </h4>
       <div id="bannerImage">
-        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+        <img alt="image"  src="<c:url value="resources/${post.title}.png"/>">
         </div>
-      <p> Description: ${description}</p>
+      <p> Description: ${post.description}</p>
     </section>
     
-      <form role="form">
+    
+    <form:form action="comment/${post.id}" commandName="comment" method="post" modelAttribute="comment">
         <div class="form-group">
-          <textarea class="form-control" rows="3" required></textarea>
+          <form:label path="description">Comment</form:label>
+          <form:input path="description" />
+          <form:errors path="description" cssClass="error"/>
+         
         </div>
-        <button type="submit" class="btn btn-success">Submit</button>
-      </form>
+        <button type="submit" class="btn btn-success" >Submit</button>
+      </form:form>
       <br><br>
       
-      <p><span class="badge">2</span> Comments:</p><br>
-      
       <div class="row">
-       
-        <div class="col-sm-10">
-          <h4>Anja <small>Sep 29, 2015, 9:12 PM</small></h4>
-          <p>Keep up the GREAT work! I am cheering for you!! Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-        </div>
-        
-        <div class="col-sm-10">
-          <h4>John Row <small>Sep 25, 2015, 8:25 PM</small></h4>
-          <p>I am so happy for you man! Finally. I am looking forward to read about your trendy life. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-          <br>
-          <p><span class="badge">1</span> Comment:</p><br>
+       <%
+       if(request.getSession().getAttribute("post")!= null){
+	       Post currentPost=(Post)request.getSession().getAttribute("post");
+	       if(currentPost.getCommentsOfPost()!=null){
+		       for(Comment c: currentPost.getCommentsOfPost()){ %>
+			        <div class="col-sm-10">
+			          <h4> <%= c.getUsername() %><small>   Date: <%=c.getDateOfUpload() %></small></h4>
+			          <p> <%=c.getDescription() %></p>
+			          <br>
+			        </div>
+          <%}} }%>
           <div class="row">
-            
-            
           </div>
         </div>
       </div>

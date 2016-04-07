@@ -37,6 +37,7 @@ public class UserManager {
 		this.user.setEmail(user.getEmail());
 		this.user.setBiography(user.getBiography());
 		this.userDao.updateUser(this.user);
+		
 	}
 	
 	public void uploadPost(Post post){
@@ -63,12 +64,13 @@ public class UserManager {
 		this.userDao.unfollowUser(this.user,username);
 	}
 	
-	public void commentOnPost(Post post,Comment comment){
-		this.postDao.addCommentOnPost(this.user.getUsername(), post, comment);
+	public void commentOnPost(Post post,Comment comment,IPostDAO dao){
+		dao.addCommentOnPost(post, comment);
+		
 	}
 	
-	public void deleteCommentOnPost(Post post,Comment comment){
-		this.postDao.deleteCommentOnPost(this.user.getUsername(), post, comment);
+	public void deleteCommentOnPost(Post post,Comment comment, IPostDAO dao){
+		dao.deleteCommentOnPost(post, comment);
 	}
    
 }

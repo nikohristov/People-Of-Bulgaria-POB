@@ -3,6 +3,7 @@ package com.example.spring.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -50,38 +51,44 @@ public class PostDAO implements IPostDAO {
 	}
 
 	@Override
-	public void addCommentOnPost(String username, Post post, Comment comment) {
-		// TODO Auto-generated method stub
+	public void addCommentOnPost(Post post, Comment comment) {
+		Session session = this.sessionFactory.openSession();
+		Hibernate.initialize(post.getCommentsOfPost().add(comment));
+		session.beginTransaction();
+		session.save(comment);
+		session.saveOrUpdate(post);
+	    session.getTransaction().commit();
+		session.close();
+		
 		
 	}
-
 	@Override
-	public void deleteCommentOnPost(String username, Post post, Comment comment) {
-		// TODO Auto-generated method stub
+	public void deleteCommentOnPost(Post post, Comment comment) {
+		
 		
 	}
 
 	@Override
 	public void updatePost(Post post) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
-	public Post getPost(String title, String description) {
-		// TODO Auto-generated method stub
-		return null;
+	public Post getPost(Integer id) {
+		Session session=this.sessionFactory.openSession();
+		Post post=(Post)session.get(Post.class, new Integer(id));
+	    session.close();
+	    
+		return post;
+		 
 	}
 
 
 
 	@Override
 	 public void addPost(Post p) {
-		Session session = this.sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(p);
-		session.getTransaction().commit();
-		session.close();
+		
 	
 	}
 
@@ -112,17 +119,7 @@ public class PostDAO implements IPostDAO {
 
 
 
-	@Override
-	public List<Post> getPicsForIndexPage() {
-		Session session = this.sessionFactory.openSession();
-		Criteria cr = session.createCriteria(Post.class);
-		cr.addOrder(Order.asc("dateOfUpload"));
-		cr.setMaxResults(15);
-		@SuppressWarnings("unchecked")
-		List<Post> result = cr.list();
-		session.close();
-		return result;
-	}
+	
 
 }
 

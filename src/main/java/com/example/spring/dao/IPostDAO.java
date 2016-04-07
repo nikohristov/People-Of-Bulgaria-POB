@@ -18,14 +18,13 @@ public interface IPostDAO {
 	
 	public List<Post> getAllPics();
 	
-	public List<Post> getPicsForIndexPage();
 	
-	public void addCommentOnPost(String username,Post post,Comment comment);
+	public void addCommentOnPost(Post post,Comment comment);
 	
-	public void deleteCommentOnPost(String username,Post post,Comment comment);
+	public void deleteCommentOnPost(Post post,Comment comment);
 	
 	public void updatePost(Post post);
 	
-	public Post getPost(String title,String description);
+	public Post getPost(Integer id);
 	
 }

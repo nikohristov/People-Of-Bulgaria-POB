@@ -2,21 +2,30 @@ package com.example.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.spring.model.user.User;
 import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
+import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.user.UserManager;
+import com.google.api.client.http.HttpRequest;
+import com.google.appengine.repackaged.org.joda.time.LocalDate;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.time.LocalDateTime;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,11 +40,31 @@ public class PostController {
 	
 	@Autowired
 	private IPostDAO postDAO;
+	@Autowired
+	private IUserDAO userDAO;
 
 
-	@RequestMapping(value="/getPost")
-	public String getPost(){
+	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.POST)
+	public String getPostById(@Valid @ModelAttribute("comment") Comment comment,Model model, BindingResult result,@PathVariable("pic_id") Integer pic_id,HttpServletRequest request){
+		if (!result.hasErrors()) {
+			comment.setDateOfUpload(new Date());
+			UserManager man= (UserManager)request.getSession().getAttribute("loggedUser");
+			comment.setUsername(man.getLoggedUser().getUsername());
+			Post currentPost=this.postDAO.getPost(pic_id);
+			man.commentOnPost(currentPost, comment, this.postDAO);
+		}
 		
+		return "forward:/getPost/"+pic_id;
+		
+	}
+	
+	@RequestMapping(value="/getPost/{pic_id}")
+	public String getPost(@PathVariable("pic_id") Integer id,ModelMap model,HttpServletRequest request){
+		 Post currentPost=this.postDAO.getPost(id);
+		 request.getSession().setAttribute("post",currentPost);
+	     Comment comment= new Comment();
+	     model.addAttribute("comment",comment);
+
 		return "post";
 	}
 	
@@ -49,10 +78,7 @@ public class PostController {
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
-		 
-	      model.addAttribute("title", post.getTitle());
-	      model.addAttribute("description", post.getDescription());
-	      model.addAttribute("category",post.getCategory());
+		model.addAttribute("post",post);
 	      
 	      //save file
 	      if (!file.isEmpty()) {
@@ -66,8 +92,16 @@ public class PostController {
 							new FileOutputStream(f));
 					stream.write(bytes);
 					stream.close();
-					configureAndAddPost(req,post,f);
+					
+					//setting post characteristics and uploading post
+					UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
+					User loggedUser=man.getLoggedUser();
+					post.setUser(loggedUser);
+					post.setDateOfUpload(new Date());
+					post.setPath(f.getAbsolutePath());
+					this.userDAO.uploadPost(loggedUser, post);
 				
+					
 					System.out.println(post.getPath());
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
@@ -86,14 +120,5 @@ public class PostController {
 	   }
 
 	 
-	private void configureAndAddPost(HttpServletRequest req, Post post,File f) {
-		post.setDateOfUpload(new Date());
-		post.setPath(f.getAbsolutePath());
-		UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
-		User loggedUser=man.getLoggedUser();
-		post.setUser(loggedUser);
-		loggedUser.getPostsOfUser().add(post);
-		this.postDAO.addPost(post);
-		
-	}
+	
 }

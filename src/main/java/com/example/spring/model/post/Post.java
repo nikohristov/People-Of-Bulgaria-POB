@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import com.example.spring.model.comment.Comment;
 import com.example.spring.model.user.User;
 
 
@@ -46,12 +51,11 @@ public class Post {
     @Column(name="path",columnDefinition="VARCHAR(150)",unique=true,nullable=true)
    	private String path;
     
-    
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinTable( name="post_comment", 
                 joinColumns=@JoinColumn(name="post_id"), 
                 inverseJoinColumns=@JoinColumn(name="comment_id"))
-	private Set<Post> commentsOfPost = new HashSet<Post>();
+	private Set<Comment> commentsOfPost=new HashSet<>();
     
     @ManyToOne
     @JoinColumn(name ="user_id")
@@ -124,11 +128,11 @@ public class Post {
 		this.dateOfUpload = dateOfUpload;
 	}
 
-	public Set<Post> getCommentsOfPost() {
+	public Set<Comment> getCommentsOfPost() {
 		return commentsOfPost;
 	}
 
-	public void setCommentsOfPost(Set<Post> commentsOfPost) {
+	public void setCommentsOfPost(Set<Comment> commentsOfPost) {
 		this.commentsOfPost = commentsOfPost;
 	}
 

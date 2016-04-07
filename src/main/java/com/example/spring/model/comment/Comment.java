@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 @Table(name="comments")
 public class Comment {
@@ -22,8 +24,11 @@ public class Comment {
 	
 	@Column(name="by_user",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
     private String username;
+	
 	@Column(name="description",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
+	@NotEmpty(message="Please enter")
     private String description;
+	
 	@Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
 	private Date dateOfUpload;
 	

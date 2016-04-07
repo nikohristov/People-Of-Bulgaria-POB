@@ -112,8 +112,13 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void uploadPost(User user, Post post) {
-		// TODO Auto-generated method stub
-		
+		user.getPostsOfUser().add(post);
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(post);
+		session.saveOrUpdate(user);
+	    session.getTransaction().commit();
+		session.close();
 	}
 
 
