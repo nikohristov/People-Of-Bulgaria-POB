@@ -77,4 +77,8 @@ public class UserManager {
 		return this.userDao;
 	}
 	
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514

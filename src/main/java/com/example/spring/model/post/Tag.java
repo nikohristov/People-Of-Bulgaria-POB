@@ -3,6 +3,7 @@ import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,12 @@ public class Tag {
     private String title;
 	
 	@ManyToMany(mappedBy="tagsOfPost",cascade = CascadeType.ALL)
+<<<<<<< HEAD
   	private Set<Post> postsOfTag = new HashSet<Post>();
+=======
+	private Set<Post> postsOfTag = new HashSet<Post>();
+
+>>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
 	//Getters and Setters
 	
 	public int getId() {

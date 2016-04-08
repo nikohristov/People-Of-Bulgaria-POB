@@ -94,4 +94,8 @@ public class ProfileController {
 		req.setAttribute("isFollow", false);
 		return "viewprofile";
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
