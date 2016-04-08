@@ -89,7 +89,7 @@ input[type=text] {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">BOB</a>
+      <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -110,7 +110,7 @@ input[type=text] {
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <h4>My profile</h4>
+      <h2>My profile</h2><br>
       <ul class="nav nav-pills nav-stacked">
         <li ><a href="http://localhost:8084/FinalProject/viewProfile">View Profile</a></li>
         <li><a href="http://localhost:8084/FinalProject/changeprofile">Change Profile</a></li>

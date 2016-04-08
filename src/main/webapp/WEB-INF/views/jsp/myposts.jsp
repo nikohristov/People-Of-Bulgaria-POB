@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">Portfolio</a>
+      <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -92,14 +92,14 @@
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <h4>My profile</h4>
+      <h2>My profile</h2><br>
       <ul class="nav nav-pills nav-stacked">
-        <li ><a href="viewprofile">View Profile</a></li>
-        <li><a href="changeprofile">Change Profile</a></li>
+        <li ><a href="viewProfile">View Profile</a></li>
+        <li><a href="changeProfile">Change Profile</a></li>
          <li><a href="upload">Upload</a></li>
-        <li><a href="#section3">Followers</a></li>
-        <li><a href="#section3">Following</a></li>
-        <li class="active"><a href="myposts">My posts</a></li>
+        <li><a href="followers">Followers</a></li>
+        <li><a href="following">Following</a></li>
+        <li class="active"><a href="">My posts</a></li>
       </ul><br>
      </div>
     <div class="col-sm-9">

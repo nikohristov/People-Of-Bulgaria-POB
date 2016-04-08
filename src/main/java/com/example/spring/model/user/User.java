@@ -90,7 +90,7 @@ public class User {
     private Set<User> usersWhoFollowed = new HashSet<User>();
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="usersWhoFollowed")
-    private Set<User> usersWhoFollowing = new HashSet<User>();
+    private Set<User> usersWhoFollower = new HashSet<User>();
 	//Getters and Setters
 
 	
@@ -99,12 +99,12 @@ public class User {
 		return id;
 	}
 
-	public Set<User> getUsersWhoFollowing() {
-		return usersWhoFollowing;
+	public Set<User> getUsersWhoFollower() {
+		return usersWhoFollower;
 	}
 
-	public void setUsersWhoFollowing(Set<User> usersWhoFollowing) {
-		this.usersWhoFollowing = usersWhoFollowing;
+	public void setUsersWhoFollower(Set<User> usersWhoFollowing) {
+		this.usersWhoFollower = usersWhoFollowing;
 	}
 	
 	public void setId(int id) {

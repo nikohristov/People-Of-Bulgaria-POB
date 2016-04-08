@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-
-
 import com.example.spring.model.user.User;
 
 @Entity
@@ -31,12 +29,8 @@ public class Tag {
     private String title;
 	
 	@ManyToMany(mappedBy="tagsOfPost",cascade = CascadeType.ALL)
-<<<<<<< HEAD
-  	private Set<Post> postsOfTag = new HashSet<Post>();
-=======
 	private Set<Post> postsOfTag = new HashSet<Post>();
 
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
 	//Getters and Setters
 	
 	public int getId() {

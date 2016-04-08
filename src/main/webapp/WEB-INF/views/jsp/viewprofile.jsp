@@ -1,7 +1,5 @@
-<%@page import="org.springframework.ui.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- <%@ page import="com.example.spring.model.user.*" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +74,7 @@ input[type=text]:focus {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="#">BOB</a>
+      <a class="navbar-brand">BOB</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -99,10 +97,10 @@ input[type=text]:focus {
    	 <div class="col-sm-3 sidenav">
    	 <c:choose>
     		<c:when test="${userProfileToView.id == loggedUser.getLoggedUser().id}">
-        			<h4>My profile</h4>	
+        			<h2>My profile</h2><br>	
     		</c:when>    
     		<c:otherwise>
-    				<h4>"${userProfileToView.username}"</h4>	
+    				<h2>${userProfileToView.username}</h2><br>	
     		</c:otherwise>
 	 </c:choose>
       <ul class="nav nav-pills nav-stacked">
@@ -111,13 +109,13 @@ input[type=text]:focus {
     		<c:when test="${userProfileToView.id == loggedUser.getLoggedUser().id}">
         		<li><a href="changeProfile">Change Profile</a></li>
         		<li><a href="upload">Upload</a></li>
-        		<li><a href="#section3">Followers</a></li>
-        		<li><a href="#section3">Following</a></li>
+        		<li><a href="followers">Followers</a></li>
+        		<li><a href="following">Following</a></li>
         		<li><a href="myposts">My posts</a></li>
     		</c:when>    
     		<c:otherwise>
-        		<li><a href="#section3">Followers</a></li>
-        		<li><a href="#section3">Following</a></li>
+        		<li><a href="followers?Id=${userProfileToView.id}">Followers</a></li>
+        		<li><a href="following?Id=${userProfileToView.id}">Following</a></li>
         		<li><a href="myposts">Posts</a></li>
     		</c:otherwise>
 		</c:choose>       

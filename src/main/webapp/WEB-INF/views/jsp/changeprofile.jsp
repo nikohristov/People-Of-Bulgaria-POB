@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -92,13 +92,13 @@
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <h4>My profile</h4>
+      <h2>My profile</h2><br>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="viewprofile">View Profile</a></li>
-        <li class="changeprofile"><a href="changeprofile">Change Profile</a></li>
+        <li><a href="viewProfile">View Profile</a></li>
+        <li class="active"><a href="">Change Profile</a></li>
          <li><a href="upload">Upload</a></li>
-        <li><a href="#section3">Followers</a></li>
-        <li><a href="#section3">Following</a></li>
+        <li><a href="followers">Followers</a></li>
+        <li><a href="following">Following</a></li>
         <li><a href="myposts">My posts</a></li>
       </ul><br>
      </div>

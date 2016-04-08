@@ -1,4 +1,3 @@
-<%@page import="org.springframework.ui.Model"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -79,7 +78,7 @@ input[type=text]:focus {
       <ul class="nav navbar-nav">
         <li class="active"><a href="">Home</a></li>
         <li><a href="viewProfile?Id=${loggedUser.getLoggedUser().id}">Profile</a></li>
-        <li class=""><a href="#">Upload</a></li>
+        <li class=""><a href="upload">Upload</a></li>
         <li class=""><a href="category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
@@ -119,6 +118,7 @@ input[type=text]:focus {
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
 					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+					        Likes:<c:out value="${post.countsOfLikes}" />&nbsp&nbspViews:<c:out value="${post.countsOfViews}" />
 					      </a>
 				     </c:if>
 				    </div>
