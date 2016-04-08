@@ -57,7 +57,7 @@ public class Post {
                 inverseJoinColumns=@JoinColumn(name="comment_id"))
 	private Set<Comment> commentsOfPost=new HashSet<>();
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="user_id")
     private User user;
     

@@ -44,7 +44,7 @@ public class PostController {
 	private IUserDAO userDAO;
 
    //adding a comment to post
-	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.GET)
 	public String addCommentOnPost(@Valid @ModelAttribute("comment") Comment comment,ModelMap model, BindingResult result,@PathVariable("pic_id") Integer pic_id,HttpServletRequest request){
 		Post currentPost=this.postDAO.getPost(pic_id);
 		if (!result.hasErrors()) {
@@ -55,17 +55,20 @@ public class PostController {
 			man.commentOnPost(currentPost, comment, this.postDAO);
 			currentPost=this.postDAO.getPost(pic_id);
 			
-		}
+		}	
 		
 		
-
-		return "forward:/getPost/"+pic_id;
-		
+		return "forward:/getPost";
 	}
 	//getting image by id and adding a comment object
 	@RequestMapping(value="/getPost",method = RequestMethod.GET)
 	public String getPost(Model model,HttpServletRequest request){
-		 int id = Integer.parseInt(request.getParameter("picId"));	
+		int id = 0;
+		try{
+		  id = Integer.parseInt(request.getParameter("picId"));
+		}catch(NumberFormatException e){
+		  id = (int) request.getSession().getAttribute("uploadId");	
+		}
 		 Post currentPost=this.postDAO.getPost(id);
 		 request.getSession().setAttribute("post",currentPost);
 		 model.addAttribute("post",currentPost);
@@ -124,9 +127,10 @@ public class PostController {
 				model.addAttribute("message","You failed to upload " + title
 						+ " because the file was empty.");
 			}
-		
+	      
+	      req.getSession().setAttribute("uploadId", post.getId());
 	      ((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
-	      return "forward:/getPost/"+post.getId();
+	      return "redirect:getPost";
 	   }
 
 	private HashSet<String> generateCategories() {

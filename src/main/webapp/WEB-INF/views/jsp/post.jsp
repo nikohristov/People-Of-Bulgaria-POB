@@ -678,7 +678,7 @@ footer {
     </section>
     
     
-    <form:form action="/FinalProject/getPost/comment/${post.id}" method="post" modelAttribute="comment">
+    <form:form action="/FinalProject/getPost/comment/${post.id}" method="get" modelAttribute="comment">
         <div class="form-group">
           <form:label path="description">Comment</form:label>
           <form:input path="description" />

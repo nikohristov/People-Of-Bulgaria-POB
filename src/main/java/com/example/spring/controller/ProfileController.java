@@ -26,8 +26,14 @@ public class ProfileController {
 	
 	@RequestMapping(value="/viewProfile", method=RequestMethod.GET)
 	public String viewProfile(HttpServletRequest req,Model model){
-		int id = Integer.parseInt(req.getParameter("Id"));
 		User user = ((UserManager)req.getSession().getAttribute("loggedUser")).getLoggedUser();
+		int id = 0;
+		try{
+			 id = Integer.parseInt(req.getParameter("Id"));
+		}catch(NumberFormatException e){
+			 id = user.getId();
+		}
+		
 		if(id != user.getId()){
 			User userToView = this.userDao.getUser(id);
 			if(user.getUsersWhoFollowed().contains(userToView)){

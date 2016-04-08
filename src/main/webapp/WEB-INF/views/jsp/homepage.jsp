@@ -113,8 +113,8 @@ input[type=text]:focus {
 					<div class="col-md-4">
 					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
 					<c:if test="${fn:length(toShow) gt index}">
+						 <c:set var="post" value="${toShow[index]}"/>
 					      <a href="getPost?picId=${post.id}" class="thumbnail">
-					      <c:set var="post" value="${toShow[index]}"/>
 					      <c:set var="title" value="${post.title}"/>
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    

@@ -3,6 +3,7 @@ package com.example.spring.model.post;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Tag {
 	@Column(name="title",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
     private String title;
 	
-	@ManyToMany(mappedBy="tagsOfPost")
+	@ManyToMany(mappedBy="tagsOfPost",cascade = CascadeType.ALL)
 	private Set<Post> postsOfTag = new HashSet<Post>();
 
 	//Getters and Setters
