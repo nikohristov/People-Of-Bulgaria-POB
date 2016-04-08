@@ -113,15 +113,12 @@ input[type=text]:focus {
 					<div class="col-md-4">
 					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
 					<c:if test="${fn:length(toShow) gt index}">
-					      <a  class="thumbnail">
+					      <a href="getPost?picId=${post.id}" class="thumbnail">
 					      <c:set var="post" value="${toShow[index]}"/>
 					      <c:set var="title" value="${post.title}"/>
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
 					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-					         <form method="GET" action="/FinalProject/getPost/${post.id}">
-						        <input type="submit" value="View Post">
-						     </form>
 					      </a>
 				     </c:if>
 				    </div>

@@ -98,9 +98,21 @@ public class UserDAO implements IUserDAO {
 
 
 	@Override
-	public void unfollowUser(User follower, String usernameOfFollowed) {
-		// TODO Auto-generated method stub
-		
+	public User unfollowUser(User follower, int following_id) {
+		Session session = this.sessionFactory.openSession();
+		session.beginTransaction();
+		User following = (User) session.get(User.class, following_id);
+		follower.getUsersWhoFollowed().remove(following);
+		following.getUsersWhoFollowing().remove(follower);
+		session.clear();
+		String SQL = "DELETE FROM user_follower WHERE user_id = (?)"; 
+		Query query = session.createSQLQuery(SQL); 
+		query.setInteger(0, follower.getId());
+		query.executeUpdate();
+		session.getTransaction().commit();
+		session.clear();
+		session.close();
+		return following;
 	}
 
 
@@ -201,14 +213,18 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public User followUser(User follower,int following_id) {
+		
 		Session session = this.sessionFactory.openSession();
 		session.beginTransaction();
 		User following = (User) session.get(User.class, following_id);
 		follower.getUsersWhoFollowed().add(following);
 		following.getUsersWhoFollowing().add(follower);
-		session.update(follower);
-		session.update(following);
-		System.out.println("save");
+		session.clear();
+		String SQL = "INSERT INTO user_follower VALUES (?,?)"; 
+		Query query = session.createSQLQuery(SQL); 
+		query.setInteger(0, follower.getId());
+		query.setInteger(1, following_id);
+		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();
 		return following;

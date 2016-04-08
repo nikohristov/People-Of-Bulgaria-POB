@@ -63,8 +63,9 @@ public class PostController {
 		
 	}
 	//getting image by id and adding a comment object
-	@RequestMapping(value="/getPost/{pic_id}")
-	public String getPost(@PathVariable("pic_id") Integer id,ModelMap model,HttpServletRequest request){
+	@RequestMapping(value="/getPost",method = RequestMethod.GET)
+	public String getPost(Model model,HttpServletRequest request){
+		 int id = Integer.parseInt(request.getParameter("picId"));	
 		 Post currentPost=this.postDAO.getPost(id);
 		 request.getSession().setAttribute("post",currentPost);
 		 model.addAttribute("post",currentPost);

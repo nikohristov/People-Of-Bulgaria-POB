@@ -78,4 +78,14 @@ public class ProfileController {
 		req.setAttribute("isFollow", true);
 		return "viewprofile";
 	}
+	
+	@RequestMapping(value="/unfollow",method=RequestMethod.GET)
+	public String unfollowUser(HttpServletRequest req){
+		UserManager manager = (UserManager) req.getSession().getAttribute("loggedUser");
+		int following_id = Integer.parseInt(req.getParameter("Id"));
+		User userUnfollowing = this.userDao.unfollowUser(manager.getLoggedUser(),following_id);
+		req.setAttribute("userProfileToView", userUnfollowing);
+		req.setAttribute("isFollow", false);
+		return "viewprofile";
+	}
 }
