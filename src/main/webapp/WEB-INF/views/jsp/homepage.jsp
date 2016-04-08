@@ -78,9 +78,9 @@ input[type=text]:focus {
 <form action="searchByTags" method="get">
       <ul class="nav navbar-nav">
         <li class="active"><a href="">Home</a></li>
-        <li><a href="http://localhost:8084/FinalProject/viewProfile">Profile</a></li>
-        <li class="http://localhost:8084/FinalProject/upload"><a href="#">Upload</a></li>
-        <li class="http://localhost:8084/FinalProject/?"><a href="category">Category</a></li>
+        <li><a href="viewProfile?Id=${loggedUser.getLoggedUser().id}">Profile</a></li>
+        <li class=""><a href="#">Upload</a></li>
+        <li class=""><a href="category">Category</a></li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
 <li> <a class="navbar-brand"></a>  </li>
@@ -113,15 +113,12 @@ input[type=text]:focus {
 					<div class="col-md-4">
 					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
 					<c:if test="${fn:length(toShow) gt index}">
-					      <a  class="thumbnail">
-					      <c:set var="post" value="${toShow[index]}"/>
+						 <c:set var="post" value="${toShow[index]}"/>
+					      <a href="getPost?picId=${post.id}" class="thumbnail">
 					      <c:set var="title" value="${post.title}"/>
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
 					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-					         <form method="GET" action="/FinalProject/getPost/${post.id}">
-						        <input type="submit" value="View Post">
-						     </form>
 					      </a>
 				     </c:if>
 				    </div>

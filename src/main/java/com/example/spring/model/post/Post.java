@@ -57,15 +57,15 @@ public class Post {
                 inverseJoinColumns=@JoinColumn(name="comment_id"))
 	private Set<Comment> commentsOfPost=new HashSet<>();
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="user_id")
     private User user;
     
     @ManyToMany(mappedBy="likedPosts")
     private Set<User> usersWhoLike = new HashSet<User>();
     
-    @ManyToMany(cascade={CascadeType.ALL})
-	@JoinTable(name="post_tag",
+    @ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.EAGER)
+    @JoinTable(name="post_tag",
     joinColumns={@JoinColumn(name="post_id")},
     inverseJoinColumns={@JoinColumn(name="tag_id")})
     private Set<Tag> tagsOfPost = new HashSet<Tag>();
@@ -204,3 +204,4 @@ public class Post {
 	}
     
 }
+

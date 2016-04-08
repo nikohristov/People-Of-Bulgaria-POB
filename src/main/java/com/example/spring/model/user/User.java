@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -69,33 +70,43 @@ public class User {
 	@Column(name="biography",columnDefinition="VARCHAR(50)",unique=false,nullable=true)
 	private String biography;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinTable( name="user_post", 
                 joinColumns=@JoinColumn(name="user_id"), 
                 inverseJoinColumns=@JoinColumn(name="post_id"))
 	private Set<Post> postsOfUser = new HashSet<Post>();
 
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.EAGER)
 	@JoinTable(name="user_likedpost",
     joinColumns={@JoinColumn(name="user_id")},
     inverseJoinColumns={@JoinColumn(name="post_id")})
 	private Set<Post> likedPosts = new HashSet<Post>();
 	
 	
-	@ManyToMany(cascade={CascadeType.ALL})
+	@ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinTable(name="user_follower",
         joinColumns={@JoinColumn(name="user_id")},
         inverseJoinColumns={@JoinColumn(name="follower_id")})
     private Set<User> usersWhoFollowed = new HashSet<User>();
 
-	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy="usersWhoFollowed")
+    private Set<User> usersWhoFollowing = new HashSet<User>();
 	//Getters and Setters
 
+	
+	
 	public int getId() {
 		return id;
 	}
 
+	public Set<User> getUsersWhoFollowing() {
+		return usersWhoFollowing;
+	}
 
+	public void setUsersWhoFollowing(Set<User> usersWhoFollowing) {
+		this.usersWhoFollowing = usersWhoFollowing;
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}

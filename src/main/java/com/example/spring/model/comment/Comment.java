@@ -2,6 +2,7 @@ package com.example.spring.model.comment;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,8 +38,8 @@ public class Comment {
 	@Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
 	private Date dateOfUpload;
 	
-	 @ManyToOne
-	 @JoinColumn(name="post_id", nullable=false)
+	 @ManyToOne(cascade = CascadeType.ALL)
+	 @JoinColumn(name="post_id",nullable=false)
 	 private Post post;
 
 	
@@ -107,5 +108,4 @@ public class Comment {
 			return false;
 		return true;
 	}
-	
 }

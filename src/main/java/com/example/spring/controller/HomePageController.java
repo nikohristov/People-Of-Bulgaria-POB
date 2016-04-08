@@ -27,17 +27,25 @@ public class HomePageController {
 	public String goToHomePage(Model model,HttpServletRequest req){
 		System.out.println("LAAAAAAAAAAAAAAAAAA");
 		List<Post> postsToShow = new ArrayList<Post>();
-		for(int i=0; i<posts_on_page; i++){
-			postsToShow.add(((List<Post>) req.getServletContext().getAttribute("allPostsByDate")).get(i));
+		List<Post> appPosts = ((List<Post>)req.getServletContext().getAttribute("allPostsByDate"));
+		
+		if(appPosts.size() < posts_on_page && appPosts.size() > 0){
+			for(int i=0; i<appPosts.size(); i++){
+				postsToShow.add(appPosts.get(i));
+			}
+		}else if(appPosts.size() > 0){
+			for(int i=0; i<posts_on_page; i++){
+				postsToShow.add(appPosts.get(i));
+			}
 		}
 		System.out.println(postsToShow.size());
 		
-		if((((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()/posts_on_page) > count_pages){
+		if((appPosts.size()/posts_on_page) > count_pages){
 			model.addAttribute("next", "true");
 			model.addAttribute("end", count_pages);
 		}else{
 			model.addAttribute("next", "false");
-			model.addAttribute("end", (((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).size()/posts_on_page)+1);
+			model.addAttribute("end", (appPosts.size()/posts_on_page)+1);
 		}
 		
 		

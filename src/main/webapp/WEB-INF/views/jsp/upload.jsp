@@ -141,6 +141,12 @@ input[type=text] {
             </td>
     </tr>
     <tr>
+        <td>
+        Tags:
+        <input type="text" name="tags">
+        </td>
+    </tr>
+    <tr>
      <tr>
     <td>File to upload: <input type="file" name="file"></td>
     </tr>

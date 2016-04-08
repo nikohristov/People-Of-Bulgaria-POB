@@ -1,5 +1,5 @@
 package com.example.spring.model.post;
-
+import javax.persistence.CascadeType;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+
 
 import com.example.spring.model.user.User;
 
@@ -27,9 +29,8 @@ public class Tag {
 	@Column(name="title",columnDefinition="VARCHAR(50)",unique=true,nullable=false)
     private String title;
 	
-	@ManyToMany(mappedBy="tagsOfPost")
-	private Set<Post> postsOfTag = new HashSet<Post>();
-
+	@ManyToMany(mappedBy="tagsOfPost",cascade = CascadeType.ALL)
+  	private Set<Post> postsOfTag = new HashSet<Post>();
 	//Getters and Setters
 	
 	public int getId() {

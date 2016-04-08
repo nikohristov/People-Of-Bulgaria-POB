@@ -86,7 +86,7 @@
 					      <c:set var="title" value="${post.title}"/>
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
-					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+					        <img alt="image"  src="<c:url value="resources/${post.id}.jpg"/>">
 					      </a>
 				     </c:if>
 				    </div>

@@ -52,8 +52,17 @@ public class HomeController {
 			req.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
 			isGenerate = true;
 		}
-		for(int i=0; i<posts_on_page; i++){
-			postsToShow.add(((List<Post>) req.getServletContext().getAttribute("allPostsByDate")).get(i));
+		
+		List<Post> appPosts = ((List<Post>)req.getServletContext().getAttribute("allPostsByDate"));
+		
+		if(appPosts.size() < posts_on_page && appPosts.size() > 0){
+			for(int i=0; i<appPosts.size(); i++){
+				postsToShow.add(appPosts.get(i));
+			}
+		}else if(appPosts.size() > 0){
+			for(int i=0; i<posts_on_page; i++){
+				postsToShow.add(appPosts.get(i));
+			}
 		}
 		return model;
 	}

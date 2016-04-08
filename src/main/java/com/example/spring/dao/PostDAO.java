@@ -118,13 +118,6 @@ public class PostDAO implements IPostDAO {
 		return allPosts;
 	}
 
-<<<<<<< HEAD
-
-
-	
-
-=======
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
 }
 
 	

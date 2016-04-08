@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@page import="org.springframework.ui.Model"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%@ page import="com.example.spring.model.user.*" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +26,6 @@ input[type=text] {
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 }
-
 input[type=text]:focus {
     width: 100%;
 }
@@ -54,29 +54,16 @@ input[type=text]:focus {
       .row.content {height: auto;} 
     }
 	
-
 .mainContent .section1 .section1Content {
-
 	font-family: ProximaNova;
-
 	font-size: 14px;
-
 	font-weight: 100;
-
 	color: rgba(208,207,207,1.00);
-
 }
-
 .mainContent .section1 .section1Content span {
-
 	color: rgba(146,146,146,1.00);
-
 	font-family: sans-serif;
-
 }
-
-
-
   </style>
 </head>
 <body>
@@ -109,46 +96,66 @@ input[type=text]:focus {
 </nav>
 <div class="container-fluid">
   <div class="row content">
-    <div class="col-sm-3 sidenav">
-      <h4>My profile</h4>
+   	 <div class="col-sm-3 sidenav">
+   	 <c:choose>
+    		<c:when test="${userProfileToView.id == loggedUser.getLoggedUser().id}">
+        			<h4>My profile</h4>	
+    		</c:when>    
+    		<c:otherwise>
+    				<h4>"${userProfileToView.username}"</h4>	
+    		</c:otherwise>
+	 </c:choose>
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#section1">View Profile</a></li>
-        <li><a href="changeProfile">Change Profile</a></li>
-        <li><a href="upload">Upload</a></li>
-        <li><a href="#section3">Followers</a></li>
-        <li><a href="#section3">Following</a></li>
-        <li><a href="myposts">My posts</a></li>
+        <li class="active"><a href="/FinalProject/viewProfile?Id=${userProfileToView.id}">View Profile</a></li>
+       	<c:choose>
+    		<c:when test="${userProfileToView.id == loggedUser.getLoggedUser().id}">
+        		<li><a href="changeProfile">Change Profile</a></li>
+        		<li><a href="upload">Upload</a></li>
+        		<li><a href="#section3">Followers</a></li>
+        		<li><a href="#section3">Following</a></li>
+        		<li><a href="myposts">My posts</a></li>
+    		</c:when>    
+    		<c:otherwise>
+        		<li><a href="#section3">Followers</a></li>
+        		<li><a href="#section3">Following</a></li>
+        		<li><a href="myposts">Posts</a></li>
+    		</c:otherwise>
+		</c:choose>       
       </ul><br>
      </div>
-    <div class="col-sm-9">
-  
+     
+   <div class="col-sm-9">
      <section class="mainContent"> 
-  <!-- Contact details -->
-  <section class="section1">
-    <h2 class="sectionTitle">Content Holder 1</h2>
-    <hr class="sectionTitleRule">
-    <hr class="sectionTitleRule2">
-    <div class="section1Content">
-    <%
-      UserManager manager=(UserManager)request.getSession().getAttribute("loggedUser");
-      User loggedUser=manager.getLoggedUser();
-     %>
-    
-      <p><span>Username :</span><%= loggedUser.getUsername() %></p>
-      <p><span>Email :</span><%=loggedUser.getEmail() %></p>
-      <p><span>First Name :</span><%=loggedUser.getFirstName() %> </p>
-      <p><span>Last Name :</span><%=loggedUser.getLastName() %></p>
-      <p><span>Biography :</span> <%=loggedUser.getBiography() %></p>
-    </div>
-  </section>
-    
-
-      
-         
+	  <section class="section1">
+	    <h2 class="sectionTitle">Content Holder 1</h2>
+	    <hr class="sectionTitleRule">
+	    <hr class="sectionTitleRule2">
+	    <div class="section1Content">
+	    
+	      <p><span>Username :</span><c:out value="${userProfileToView.username}"/></p>		
+	      <p><span>Email :</span><c:out value="${userProfileToView.email}"/></p>
+	      <p><span>First Name :</span><c:out value="${userProfileToView.firstName}"/></p>
+	      <p><span>Last Name :</span><c:out value="${userProfileToView.lastName}"/></p>
+	      <c:if test="${userProfileToView.biography != null}">
+	       	 <p><span>Biography :</span><c:out value="${userProfileToView.biography}"/></p>
+	      </c:if>
+	      <c:if test="${userProfileToView.id != loggedUser.getLoggedUser().id}">
+	       	 <c:choose>
+    			<c:when test="${isFollow == false}">
+    				<a href="/FinalProject/follow?Id=${userProfileToView.id}" role="button" class="btn btn-primary btn-lg">
+        				Follow
+        			</a>	
+    			</c:when>    
+    			<c:otherwise>
+    				<a href="/FinalProject/unfollow?Id=${userProfileToView.id}" role="button" class="btn btn-success active btn-lg">
+        				Followed
+        			</a>	
+    			</c:otherwise>
+			  </c:choose>
+	      </c:if>
+	    </div>
+	  </section>        
     </section>
   </div>
-
-
-
 </body>
 </html>

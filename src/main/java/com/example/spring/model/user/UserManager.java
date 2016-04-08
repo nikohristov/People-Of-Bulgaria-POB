@@ -56,12 +56,12 @@ public class UserManager {
 		this.userDao.unlikePost(this.user,post);
 	}
 	
-	public void followUser(String username){
-		this.userDao.followUser(this.user,username);
+	public User followUser(int following_id){
+		return this.userDao.followUser(this.user, following_id);
 	}
 	
-	public void unfollowUser(String username){
-		this.userDao.unfollowUser(this.user,username);
+	public User unfollowUser(int following_id){
+		return this.userDao.unfollowUser(this.user, following_id);
 	}
 	
 	public void commentOnPost(Post post,Comment comment,IPostDAO dao){
@@ -72,5 +72,9 @@ public class UserManager {
 	public void deleteCommentOnPost(Post post,Comment comment, IPostDAO dao){
 		dao.deleteCommentOnPost(post, comment);
 	}
-   
+	
+	public IUserDAO getUserDao(){
+		return this.userDao;
+	}
+	
 }

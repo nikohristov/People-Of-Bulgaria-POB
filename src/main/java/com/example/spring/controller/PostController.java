@@ -10,20 +10,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.example.spring.model.user.User;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.spring.dao.IPostDAO;
 import com.example.spring.dao.IUserDAO;
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
+import com.example.spring.model.post.Tag;
 import com.example.spring.model.user.UserManager;
-import com.google.api.client.http.HttpRequest;
-import com.google.appengine.repackaged.org.joda.time.LocalDate;
+
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.time.LocalDateTime;
+import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -43,9 +51,17 @@ public class PostController {
 	private IPostDAO postDAO;
 	@Autowired
 	private IUserDAO userDAO;
+	
+	private static String bucketName = "bob-final-project";
+	private static String folderName = "testfolder";
+	private AWSCredentials credentials = new BasicAWSCredentials(
+				"AKIAIONDNGRXYQ7CENBQ", 
+				"dlwceclkLHj1wylYjABl5oEjmsZjeaLLsj3Yy6UU");
+	
+    private  AmazonS3 s3client = new AmazonS3Client(credentials);
 
    //adding a comment to post
-	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "getPost/comment/{pic_id}", method = RequestMethod.GET)
 	public String addCommentOnPost(@Valid @ModelAttribute("comment") Comment comment,ModelMap model, BindingResult result,@PathVariable("pic_id") Integer pic_id,HttpServletRequest request){
 		Post currentPost=this.postDAO.getPost(pic_id);
 		if (!result.hasErrors()) {
@@ -55,28 +71,33 @@ public class PostController {
 			comment.setPost(currentPost);
 			man.commentOnPost(currentPost, comment, this.postDAO);
 			currentPost=this.postDAO.getPost(pic_id);
+			request.getSession().setAttribute("uploadId", currentPost.getId());
 			
 		}
 		
 		
-<<<<<<< HEAD
-		return "forward:/getPost/"+pic_id;
-=======
-		 return "forward:/getPost"+pic_id;
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
+		return "forward:/getPost";
 		
 	}
 	//getting image by id and adding a comment object
-	@RequestMapping(value="/getPost/{pic_id}")
-	public String getPost(@PathVariable("pic_id") Integer id,ModelMap model,HttpServletRequest request){
+	@RequestMapping(value="/getPost",method = RequestMethod.GET)
+	public String getPost(Model model,HttpServletRequest request){
+		int id = 0;
+		try{
+		  id = Integer.parseInt(request.getParameter("picId"));
+		}catch(NumberFormatException e){
+		  id = (int) request.getSession().getAttribute("uploadId");	
+		}
 		 Post currentPost=this.postDAO.getPost(id);
 		 request.getSession().setAttribute("post",currentPost);
 		 model.addAttribute("post",currentPost);
 	     Comment comment= new Comment();
+	     User user = this.userDAO.getUser(currentPost.getUser().getId());
+	     model.addAttribute("userOfPost", user);
 	     model.addAttribute("comment",comment);
-
-		return "post";
+	     return "post";
 	}
+	
 	//go to upload.jsp
 	@RequestMapping(value="/upload", method = RequestMethod.GET)
 	public ModelAndView post(Model model) {
@@ -87,40 +108,52 @@ public class PostController {
 	}
 	
     //post an image 
-	@RequestMapping(value = "/post", method = RequestMethod.GET)
-	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/post", method = RequestMethod.POST)
+	   public String post(@ModelAttribute("SpringWeb")Post post, 
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
 		model.addAttribute("post",post);
+		
 	      
 	      //save file
 	      if (!file.isEmpty()) {
 				try {
-					byte[] bytes = file.getBytes();
-
-					// Creating the directory to store file
-					String path = req.getSession().getServletContext().getRealPath("/resources/");
-					File f = new File(path+File.separator+title+".png");
-					BufferedOutputStream stream = new BufferedOutputStream(
-							new FileOutputStream(f));
-					stream.write(bytes);
-					stream.close();
+					
+					
 					
 					//setting post characteristics and uploading post
+					//setting tags
+					String[] tags=req.getParameter("tags").replace(".", " ").replace(",", " ").replace("?", " ").replace("!"," ").split(" ");
+					for(String tag: tags){
+						Tag t= new Tag();
+						t.getPostsOfTag().add(post);
+						t.setTitle(tag);
+						post.getTagsOfPost().add(t);
+					}
+					System.out.println("tags filling");
 					UserManager man=(UserManager) req.getSession().getAttribute("loggedUser");
 					User loggedUser=man.getLoggedUser();
 					post.setUser(loggedUser);
 					post.setDateOfUpload(new Date());
-					post.setPath(f.getAbsolutePath());
 					this.userDAO.uploadPost(loggedUser, post);
-				
-<<<<<<< HEAD
+					System.out.println("post uploading");
 					
-=======
-			
->>>>>>> 39a6d82eef9a790ebbc01941b470365ab1c6e93f
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
-					System.out.println(post.getPath());
+					//saving file to folder and to cloud
+					byte[] bytes = file.getBytes();
+
+					String path = req.getSession().getServletContext().getRealPath("/resources/");
+					File f = new File(path+File.separator+post.getId()+".jpg");
+					BufferedOutputStream stream = new BufferedOutputStream(
+							new FileOutputStream(f));
+					stream.write(bytes);
+					stream.flush();
+					stream.close();
+				
+					saveToCloud(f,post.getId());
+					System.out.println("saved to cloud");
+					
+					
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
 					
@@ -134,9 +167,28 @@ public class PostController {
 			}
 		
 
-	      return "forward:/getPost/"+post.getId();
+	      req.getSession().setAttribute("uploadId", post.getId());
+	      //((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
+	      return "redirect:getPost";
 	   }
 
+	
+	private void saveToCloud(File file, int id) {
+		
+		String fileName = id+ ".jpg";
+	    s3client.putObject(new PutObjectRequest(bucketName, fileName, file).withCannedAcl(CannedAccessControlList.PublicRead));
+	    
+	}
+	private void getPicFromCloud(int id,String path) {
+		String fileName=id+".jpg";
+		s3client.getObject( new GetObjectRequest(bucketName, fileName),new File(path));
+		
+	}
+	private String download(){
+		GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(bucketName, "secret_plans.txt");
+		return s3client.generatePresignedUrl(request).toString();
+	}
+	
 	private HashSet<String> generateCategories() {
 		HashSet<String> categories=new HashSet<>();
 		categories.add("Nature");
@@ -144,11 +196,5 @@ public class PostController {
 		categories.add("Pets");
 		return categories;
 	}
-<<<<<<< HEAD
-=======
-=======
-	 
-
->>>>>>> 5acba3365324cf49eae324b7279a2cb94e7f4727
 	
 }
