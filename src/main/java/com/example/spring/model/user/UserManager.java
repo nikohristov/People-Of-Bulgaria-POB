@@ -48,12 +48,12 @@ public class UserManager {
 		this.userDao.deletePost(this.user, post);
 	}
 	
-	public void likePost(Post post){
-		this.userDao.likePost(this.user,post);
+	public void likePost(Post post, IUserDAO userDAO2){
+		userDAO2.likePost(this.user,post);
 	}
 	
-	public void unlikePost(Post post){
-		this.userDao.unlikePost(this.user,post);
+	public void unlikePost(Post post, IUserDAO userDAO2){
+		userDAO2.unlikePost(this.user,post);
 	}
 	
 	public User followUser(int following_id){

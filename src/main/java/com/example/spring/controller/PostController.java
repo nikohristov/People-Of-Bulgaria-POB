@@ -25,10 +25,7 @@ import com.example.spring.model.comment.Comment;
 import com.example.spring.model.post.Post;
 import com.example.spring.model.post.Tag;
 import com.example.spring.model.user.UserManager;
-<<<<<<< HEAD
 
-=======
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -74,18 +71,41 @@ public class PostController {
 			comment.setUsername(man.getLoggedUser().getUsername());
 			comment.setPost(currentPost);
 			man.commentOnPost(currentPost, comment, this.postDAO);
-			currentPost=this.postDAO.getPost(pic_id);
 			request.getSession().setAttribute("uploadId", currentPost.getId());
 			
 		}	
-		
-<<<<<<< HEAD
+
 		return "forward:/getPost";
-=======
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
+
+	}
+	@RequestMapping(value = "likePost/{pic_id}", method = RequestMethod.GET)
+	public String likePost(@PathVariable("pic_id") Integer pic_id,HttpServletRequest request, Model model){
+		Post currentPost=this.postDAO.getPost(pic_id);
+		UserManager man=(UserManager) request.getSession().getAttribute("loggedUser");
+		User loggedUser=man.getLoggedUser();
+		Boolean inLikes=false;
 		
+		for(Post p: loggedUser.getLikedPosts()){
+			if(p.getId()==currentPost.getId()){
+				inLikes=true;
+			}
+		}
+		if(inLikes){
+		    man.unlikePost(currentPost,this.userDAO);
+		}
+		else{
+			man.likePost(currentPost,this.userDAO);
+			System.out.println("LIKING");
+		}
+		
+		
+		request.getSession().setAttribute("uploadId", currentPost.getId());
 		return "forward:/getPost";
 	}
+	
+	
+	
+	
 	//getting image by id and adding a comment object
 	@RequestMapping(value="/getPost",method = RequestMethod.GET)
 	public String getPost(Model model,HttpServletRequest request){
@@ -93,7 +113,7 @@ public class PostController {
 		try{
 		  id = Integer.parseInt(request.getParameter("picId"));
 		}catch(NumberFormatException e){
-		  id = (int) request.getSession().getAttribute("uploadId");	
+		  id = (Integer) request.getSession().getAttribute("uploadId");	
 		}
 		 Post currentPost=this.postDAO.getPost(id);
 		 request.getSession().setAttribute("post",currentPost);
@@ -102,6 +122,16 @@ public class PostController {
 	     User user = this.userDAO.getUser(currentPost.getUser().getId());
 	     model.addAttribute("userOfPost", user);
 	     model.addAttribute("comment",comment);
+	     
+	    // for(Post p: user.getLikedPosts())
+	     if(user.getLikedPosts().contains(currentPost)){
+	        model.addAttribute("color","red");
+	     }
+	     else{
+    	   model.addAttribute("color","");
+	     }
+
+	     
 	     return "post";
 	}
 	
@@ -115,14 +145,10 @@ public class PostController {
 	}
 	
     //post an image 
-<<<<<<< HEAD
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/post", method = RequestMethod.POST)
-	   public String post(@ModelAttribute("SpringWeb")Post post, 
-=======
-	@RequestMapping(value = "/post", method = RequestMethod.POST)
 	   public String addStudent(@ModelAttribute("SpringWeb")Post post, 
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
 	   ModelMap model,@RequestParam("title") String title,
 		@RequestParam("file") MultipartFile file, HttpServletRequest req) {
 		model.addAttribute("post",post);
@@ -162,14 +188,14 @@ public class PostController {
 					stream.flush();
 					stream.close();
 				
-<<<<<<< HEAD
+
 					saveToCloud(f,post.getId());
 					System.out.println("saved to cloud");
 					
 					
-=======
+
 					System.out.println(post.getPath());
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
+
 					model.addAttribute("message","You successfully uploaded file=" + title);
 					model.addAttribute("path",post.getPath());
 					
@@ -181,16 +207,14 @@ public class PostController {
 				model.addAttribute("message","You failed to upload " + title
 						+ " because the file was empty.");
 			}
-<<<<<<< HEAD
 		
 
 	      req.getSession().setAttribute("uploadId", post.getId());
 	      //((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
-=======
-	      
+      
 	      req.getSession().setAttribute("uploadId", post.getId());
 	      ((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
+
 	      return "redirect:getPost";
 	   }
 
@@ -212,15 +236,14 @@ public class PostController {
 	}
 	
 	private HashSet<String> generateCategories() {
-		HashSet<String> categories=new HashSet<>();
+		HashSet<String> categories=new HashSet<String>();
 		categories.add("Nature");
 		categories.add("People");
 		categories.add("Pets");
 		return categories;
 	}
-<<<<<<< HEAD
-=======
 
->>>>>>> adaa01fab0ee2dcb652e03b9dc874570ceae7514
+
+
 	
 }

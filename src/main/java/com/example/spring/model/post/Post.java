@@ -35,7 +35,6 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="post_id")
 	private int id;
-	
 	@Column(name="title",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
     private String title;
     @Column(name="description",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
@@ -50,8 +49,10 @@ public class Post {
    	private Date dateOfUpload;
     @Column(name="path",columnDefinition="VARCHAR(150)",unique=true,nullable=true)
    	private String path;
-    
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
+  
+   
+
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinTable( name="post_comment", 
                 joinColumns=@JoinColumn(name="post_id"), 
                 inverseJoinColumns=@JoinColumn(name="comment_id"))
@@ -61,7 +62,7 @@ public class Post {
     @JoinColumn(name ="user_id")
     private User user;
     
-    @ManyToMany(mappedBy="likedPosts")
+    @ManyToMany(mappedBy="likedPosts", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<User> usersWhoLike = new HashSet<User>();
     
     @ManyToMany(cascade={CascadeType.ALL},fetch = FetchType.EAGER)
@@ -103,6 +104,7 @@ public class Post {
 	public void setCategory(String category) {
 		this.category = category;
 	}
+	 
 
 	public int getCountsOfViews() {
 		return countsOfViews;

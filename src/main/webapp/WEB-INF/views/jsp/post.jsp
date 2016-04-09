@@ -378,12 +378,16 @@ footer {
     <section id="mainContent"> 
       <h4>Title: ${post.title} </h4>
       <div id="bannerImage">
-        <img alt="image"  src="<c:url value="resources/${post.title}.png"/>">
+        <img alt="image"  src="<c:url value="resources/${post.id}.jpg"/>">
         </div>
       <p class="lead"> Description: ${post.description}</p>
       <p class="lead">${post.dateOfUpload} by <a href="/FinalProject/viewProfile?Id=${userOfPost.id}">${userOfPost.username}</a> </p>
+      <form action="/FinalProject/likePost/${post.id}" method="get">
+           <input type="submit" value="Like" style="background: ${color}">
+       </form>
     </section>
     
+   
     
     <form:form action="/FinalProject/getPost/comment/${post.id}" method="get" modelAttribute="comment">
         <div class="form-group">

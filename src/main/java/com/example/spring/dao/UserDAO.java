@@ -7,6 +7,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.spring.model.post.Post;
@@ -103,7 +104,7 @@ public class UserDAO implements IUserDAO {
 		session.beginTransaction();
 		User following = (User) session.get(User.class, following_id);
 		follower.getUsersWhoFollowed().remove(following);
-		following.getUsersWhoFollowing().remove(follower);
+		following.getUsersWhoFollower().remove(follower);
 		session.clear();
 		String SQL = "DELETE FROM user_follower WHERE user_id = (?)"; 
 		Query query = session.createSQLQuery(SQL); 
@@ -118,12 +119,12 @@ public class UserDAO implements IUserDAO {
 
 	@Override
 	public void uploadPost(User user, Post post) {
-		Hibernate.initialize(user.getPostsOfUser().add(post));
+		user.getPostsOfUser().add(post);
 		Session session = this.sessionFactory.openSession();
 		session.beginTransaction();
 		session.save(post);
 		System.out.println("saved post");
-		session.saveOrUpdate(user);
+		session.update(user);
 	    session.getTransaction().commit();
 		session.close();
 	}
@@ -137,15 +138,35 @@ public class UserDAO implements IUserDAO {
 
 
 	@Override
-	public void likePost(User user, Post post) {
-		// TODO Auto-generated method stub
+	public void likePost(User user, Post post) {		
+		Session session = this.sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		user=(User) session.get(User.class,user.getId());
+		post=(Post) session.get(Post.class, post.getId());
+		post.setCountsOfLikes(post.getCountsOfLikes()+1);
+		post.getUsersWhoLike().add(user);
+		user.getLikedPosts().add(post);
+		session.update(post);
+		session.update(user);
+		transaction.commit();
+		session.close();
 		
 	}
 
 
 	@Override
 	public void unlikePost(User user, Post post) {
-		// TODO Auto-generated method stub
+		Session session = this.sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		user=(User) session.get(User.class,user.getId());
+		post=(Post) session.get(Post.class, post.getId());
+		post.setCountsOfLikes(post.getCountsOfLikes()-1);
+		post.getUsersWhoLike().remove(user);
+		user.getLikedPosts().remove(post);
+		session.update(post);
+		session.update(user);
+		transaction.commit();
+		session.close();
 		
 	}
 
@@ -218,7 +239,7 @@ public class UserDAO implements IUserDAO {
 		session.beginTransaction();
 		User following = (User) session.get(User.class, following_id);
 		follower.getUsersWhoFollowed().add(following);
-		following.getUsersWhoFollowing().add(follower);
+		following.getUsersWhoFollowed().add(follower);
 		session.clear();
 		String SQL = "INSERT INTO user_follower VALUES (?,?)"; 
 		Query query = session.createSQLQuery(SQL); 
