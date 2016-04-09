@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.spring.dao.IUserDAO;
+import com.example.spring.model.post.Post;
 import com.example.spring.model.user.User;
 import com.example.spring.model.user.UserManager;
 
 @Controller
 public class ProfileController {
+	
+	private static final int posts_on_page = 8;
+	private static final int count_pages = 5;
 	
 	@Autowired
 	private IUserDAO userDao;
@@ -53,10 +57,120 @@ public class ProfileController {
 	}
 	
 	
-	@RequestMapping(value="/myposts", method=RequestMethod.GET)
-	public String showMyPosts(){
+	@RequestMapping(value="/myPosts", method=RequestMethod.GET)
+	public String showMyPosts(HttpServletRequest req){
+		User user = ((UserManager)req.getSession().getAttribute("loggedUser")).getLoggedUser();
+		int id = 0;
+		try{
+			 id = Integer.parseInt(req.getParameter("Id"));
+		}catch(NumberFormatException e){
+			 id = user.getId();
+		}
+		
+		String searchCategory = req.getParameter("category");
+		System.out.println(searchCategory);
+		try{
+			searchCategory.length();
+		}catch(NullPointerException e){
+			searchCategory = "All";
+		}
+		
+		List<Post> postsToView = new ArrayList<Post>();
+		if(id != user.getId()){
+			User userToView = this.userDao.getUser(id);
+			postsToView.addAll(userToView.getPostsOfUser());
+			req.setAttribute("userProfileToView", userToView);
+		}else{
+			postsToView.addAll(user.getPostsOfUser());
+			req.setAttribute("userProfileToView", user);
+		}
+		
+		if(!searchCategory.equals("All")){
+			for(int i=0; i<postsToView.size(); i++){
+				if(!postsToView.get(i).getCategory().equals(searchCategory)){
+					System.out.println(postsToView.get(i).getCategory());
+				 	postsToView.remove(i);
+				}
+			}
+		}
+		
+		if((postsToView.size()/posts_on_page) > count_pages){
+			req.setAttribute("next", "true");
+			req.setAttribute("end", count_pages);
+		}else{
+			req.setAttribute("next", "false");
+			req.setAttribute("end", (postsToView.size()/posts_on_page)+1);
+		}
+		
+		req.setAttribute("begin", 1);
+		req.setAttribute("page", 1);
+		req.getSession().setAttribute("postsToView", postsToView);
+		req.getSession().setAttribute("categoryToShow", searchCategory);
 		return "myposts";
 	}
+	
+	@RequestMapping(value="/myPostsPage", method=RequestMethod.GET)
+	public String showMyPostsByPage(HttpServletRequest req){
+		String page = req.getParameter("pageId");
+		System.out.println(req.getParameter("b"));
+		System.out.println(req.getParameter("e"));
+		int begin = Integer.parseInt(req.getParameter("b"));
+		int end = Integer.parseInt(req.getParameter("e"));
+		boolean next = Boolean.parseBoolean(req.getParameter("next"));
+		int pageToView = Integer.parseInt(page);
+		int indexOfFirstPost = pageToView*posts_on_page-posts_on_page;
+		int indexOfLastPost = pageToView*posts_on_page;
+		int numberOfPages = 0;
+		List<Post> myposts = (List<Post>) req.getSession().getAttribute("postsToView");
+		
+		
+		if(((myposts.size()%posts_on_page)) != 0){
+			numberOfPages = ((myposts.size()/posts_on_page) + 1);
+		}else{
+			numberOfPages = ((myposts.size()/posts_on_page));
+		}
+		
+		if(pageToView > end){
+			begin  = pageToView;
+			if(numberOfPages > count_pages+(pageToView-1)){
+				next = true;
+				end = count_pages+(pageToView-1);
+			}else{
+				next = false;
+				end = (numberOfPages);
+			}
+		}else if(pageToView < begin){
+			end = pageToView;
+			begin -= count_pages;
+			next = true;
+		}
+		
+		System.out.println(page);
+		System.out.println(indexOfFirstPost);
+		System.out.println(indexOfLastPost);
+		
+		List<Post> toShow = new ArrayList<Post>();
+		if(indexOfFirstPost < myposts.size() && indexOfLastPost > myposts.size()){
+			for(int i=indexOfFirstPost; i<myposts.size(); i++){
+				toShow.add(myposts.get(i));
+			}
+		}else{
+			for(int i=indexOfFirstPost; i<indexOfLastPost; i++){
+				toShow.add(myposts.get(i));
+			}
+		}
+	
+		req.setAttribute("page", page);
+		req.setAttribute("begin", begin);
+		req.setAttribute("end", end);
+		req.setAttribute("next", next);
+		req.getSession().setAttribute("toShow", toShow);
+		return "myposts";
+		
+		
+	}
+	
+	
 	
 	@RequestMapping(value="/doChangeProfile")
 	public String doChangeProfile(HttpServletRequest request) {
@@ -80,9 +194,6 @@ public class ProfileController {
 		UserManager manager = (UserManager) req.getSession().getAttribute("loggedUser");
 		int following_id = Integer.parseInt(req.getParameter("Id"));
 		User userFollowing = this.userDao.followUser(manager.getLoggedUser(),following_id);
-		System.out.println(userFollowing.getId());
-		System.out.println(userFollowing.getUsername());
-		System.out.println(userFollowing.getPassword());
 		req.setAttribute("userProfileToView", userFollowing);
 		req.setAttribute("isFollow", true);
 		return "viewprofile";

@@ -114,9 +114,9 @@ input[type=text] {
       <ul class="nav nav-pills nav-stacked">
         <li ><a href="http://localhost:8084/FinalProject/viewProfile">View Profile</a></li>
         <li><a href="http://localhost:8084/FinalProject/changeprofile">Change Profile</a></li>
-        <li class="active"><a href="http://localhost:8084/FinalProject/upload">Upload</a></li>
-        <li><a href="#section3">Followers</a></li>
-        <li><a href="#section3">Following</a></li>
+        <li class="active"><a href="">Upload</a></li>
+        <li><a href="followers">Followers</a></li>
+        <li><a href="following">Following</a></li>
         <li><a href="myposts">My posts</a></li>
         
       </ul><br>
