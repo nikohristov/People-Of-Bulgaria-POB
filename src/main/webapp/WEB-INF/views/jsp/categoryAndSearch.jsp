@@ -150,10 +150,10 @@ input[type=text]:focus {
 <center>
 	
 		<c:if test="${fn:length(toShow) gt 0}">
-			<c:forEach  varStatus="status" begin="0" end="2">
+			<c:forEach  varStatus="status" begin="0" end="7" step="3">
 				<div class="container">
 				<div class="row">
-				  <c:forEach varStatus="status2" begin="${status.getIndex()*2}" end="${status.getIndex()*2+2}">	
+				  <c:forEach varStatus="status2" begin="${status.getIndex()}" end="${status.getIndex()+2}">	
 					<div class="col-md-4">
 					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
 					<c:if test="${fn:length(toShow) gt index}">

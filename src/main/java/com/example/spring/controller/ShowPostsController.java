@@ -145,13 +145,7 @@ public class ShowPostsController {
 	private void orderBy(String string,List<Post> toSort){
 		switch(string){
 		case "Date":
-			Collections.sort(toSort, new Comparator<Post>() {
-
-				@Override
-				public int compare(Post o1, Post o2) {
-					return o2.getDateOfUpload().compareTo(o1.getDateOfUpload());
-				}
-			});
+			Collections.sort(toSort);
 			break;
 		case "Likes":
 			Collections.sort(toSort, new Comparator<Post>() {

@@ -16,9 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.example.spring.model.comment.Comment;
 import com.example.spring.model.user.User;
@@ -27,7 +26,7 @@ import com.example.spring.model.user.User;
 
 @Entity
 @Table(name="posts")
-public class Post {
+public class Post implements Comparable<Post>{
 	
 	//Define hibernate table and states
 	
@@ -35,6 +34,7 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="post_id")
 	private int id;
+	
 	@Column(name="title",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
     private String title;
     @Column(name="description",columnDefinition="VARCHAR(50)",unique=false,nullable=false)
@@ -45,14 +45,13 @@ public class Post {
 	private int countsOfViews;
     @Column(name="counts_likes",columnDefinition="INT",unique=false,nullable=true)
 	private int countsOfLikes;
-    @Column(name="date_upload",columnDefinition="DATE",unique=false,nullable=false)
+    @Column(name="date_upload")
+    @Temporal(TemporalType.TIMESTAMP)
    	private Date dateOfUpload;
     @Column(name="path",columnDefinition="VARCHAR(150)",unique=true,nullable=true)
    	private String path;
-  
-   
-
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
+    
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinTable( name="post_comment", 
                 joinColumns=@JoinColumn(name="post_id"), 
                 inverseJoinColumns=@JoinColumn(name="comment_id"))
@@ -175,8 +174,9 @@ public class Post {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dateOfUpload == null) ? 0 : dateOfUpload.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((path == null) ? 0 : path.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -190,12 +190,17 @@ public class Post {
 		if (getClass() != obj.getClass())
 			return false;
 		Post other = (Post) obj;
-		if (dateOfUpload == null) {
-			if (other.dateOfUpload != null)
-				return false;
-		} else if (!dateOfUpload.equals(other.dateOfUpload))
-			return false;
 		if (id != other.id)
+			return false;
+		if (path == null) {
+			if (other.path != null)
+				return false;
+		} else if (!path.equals(other.path))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -204,6 +209,18 @@ public class Post {
 			return false;
 		return true;
 	}
-    
-}
 
+	@Override
+	public int compareTo(Post o) {
+		
+		if(this.id > o.id){
+			return -1;
+		}else if(this.id == o.id){
+			return 0;
+		}else{
+			return 1;
+		}
+		
+	}
+
+}

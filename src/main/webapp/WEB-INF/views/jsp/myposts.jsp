@@ -142,10 +142,10 @@ input[type=text]:focus {
      <section class="mainContent text-left">
      			<c:choose> 
      				<c:when test="${userProfileToView.id == loggedUser.getLoggedUser().id}">
-		        			<h2 class="sectionTitle">My posts<c:if test="${true}"></c:if></h2>
+		        			<h2 class="sectionTitle">My posts<c:if test="${categoryToShow != null}"> by category: <c:out value="${categoryToShow}"/></c:if></h2>
 		    		</c:when>    
 		    		<c:otherwise>
-		    				<h2 class="sectionTitle">Posts of ${userProfileToView.username} <c:if test="${true}"></c:if></h2>
+		    				<h2 class="sectionTitle">Posts of ${userProfileToView.username} <c:if test="${categoryToShow != null}"> by category: <c:out value="${categoryToShow}"/></c:if></h2>
 		    		</c:otherwise>
 		    	</c:choose> 
 	  <section class="section1">
@@ -164,21 +164,21 @@ input[type=text]:focus {
 			</form>		
 	    <div class="section1Content ">
 		    <c:choose>
-		    <c:when test="${fn:length(postsToView) gt 0}">
-			<c:forEach  varStatus="status" begin="0" end="3">
+		    <c:when test="${fn:length(showPartList) gt 0}">
+			<c:forEach  varStatus="status" begin="0" end="6" step="2">
 				<div class="container">
 				<div class="row">
-				  <c:forEach varStatus="status2" begin="${status.getIndex()*1}" end="${status.getIndex()*1+1}">	
+				  <c:forEach varStatus="status2" begin="${status.getIndex()}" end="${status.getIndex()+1}">	
 					<div class="col-md-4">
 					<fmt:parseNumber var="index" type="number" value="${status2.getIndex()}" />
-					<c:if test="${fn:length(postsToView) gt index}">
-						 <c:set var="post" value="${postsToView[index]}"/>
+					<c:if test="${fn:length(showPartList) gt index}">
+						 <c:set var="post" value="${showPartList[index]}"/>
 					      <a href="getPost?picId=${post.id}" class="thumbnail">
 					      <c:set var="title" value="${post.title}"/>
 					        <p><c:out value="${title}" /></p>
 					        <c:set var="title" value="${title}"/>    
 					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
-					        Likes:<c:out value="${post.countsOfLikes}" />&nbsp&nbspViews:<c:out value="${post.countsOfViews}" />
+					        <center>Likes:<c:out value="${post.countsOfLikes}" />&nbsp&nbspViews:<c:out value="${post.countsOfViews}" /></center>
 					      </a>
 				     </c:if>
 				    </div>
@@ -188,7 +188,7 @@ input[type=text]:focus {
 			</c:forEach>
 		<center><ul class="pagination pagination-lg">
 			<c:if test="${begin > 1}">
-				 <li><a href="myPostsPage?pageId=${begin-1}&b=${begin}&e=${end}" aria-label="Previous">
+				 <li><a href="myPostsPage?pageId=${begin-1}&b=${begin}&e=${end}&Id=${userProfileToView.id}" aria-label="Previous">
 			        <span aria-hidden="true">&laquo;</span>
 			      	</a>
 		    	</li>
@@ -204,7 +204,7 @@ input[type=text]:focus {
 	    				</c:when>    
 	    				<c:otherwise>
 	    					<li>
-		  						<a href="myPostsPage?pageId=${i}&b=${begin}&e=${end}&next=${next}" id="${i}"><c:out value="${i}"/>
+		  						<a href="myPostsPage?pageId=${i}&b=${begin}&e=${end}&next=${next}&Id=${userProfileToView.id}" id="${i}"><c:out value="${i}"/>
 		  						</a>
 		  					</li>
 	    				</c:otherwise>
@@ -212,7 +212,7 @@ input[type=text]:focus {
 		  		</c:forEach>
 		  		<c:if test="${next == true}">
 	  			<li>
-			      <a href="myPostsPage?pageId=${end+1}&b=${begin}&e=${end}" aria-label="Next">
+			      <a href="myPostsPage?pageId=${end+1}&b=${begin}&e=${end}&Id=${userProfileToView.id}" aria-label="Next">
 			        <span aria-hidden="true">&raquo;</span>
 	      		</a>
 	    		</li>

@@ -3,7 +3,11 @@ package com.example.spring.controller;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +35,7 @@ import com.example.spring.model.user.UserManager;
  */
 @Controller
 public class HomeController {
-	
-	private static boolean isGenerate = false;
+
 	private static int posts_on_page = 9;
 	
 	@Autowired
@@ -46,14 +49,22 @@ public class HomeController {
 	public ModelAndView home(HttpServletRequest req) {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
-		List<Post> postsToShow = new ArrayList<Post>();
-		model.addObject("toShow", postsToShow);
-		if(!isGenerate){
-			req.getServletContext().setAttribute("allPostsByDate", this.postDao.getAllPicsByDate());
-			isGenerate = true;
+		ArrayList<Post> postsToShow = new ArrayList<Post>();
+		List<Post> appPosts = new ArrayList<Post>();
+		HashSet<Post> allInApp = new HashSet<Post>();
+		if(req.getServletContext().getAttribute("allPostsByDate") == null){
+			allInApp.addAll(this.postDao.getAllPicsByDate());
+			req.getServletContext().setAttribute("allPostsByDate", allInApp);
 		}
 		
-		List<Post> appPosts = ((List<Post>)req.getServletContext().getAttribute("allPostsByDate"));
+		allInApp = (HashSet<Post>) req.getServletContext().getAttribute("allPostsByDate");
+		for(Iterator it = allInApp.iterator(); it.hasNext();){
+			Post post = (Post) it.next();
+			appPosts.add(post);
+			System.out.println(post.getDateOfUpload());
+		}
+		
+		Collections.sort(appPosts);
 		
 		if(appPosts.size() < posts_on_page && appPosts.size() > 0){
 			for(int i=0; i<appPosts.size(); i++){
@@ -64,6 +75,9 @@ public class HomeController {
 				postsToShow.add(appPosts.get(i));
 			}
 		}
+		
+		System.out.println(postsToShow.size());
+		model.addObject("toShow", postsToShow);
 		return model;
 	}
 	

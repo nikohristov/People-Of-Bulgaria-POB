@@ -79,32 +79,48 @@ public class ProfileController {
 		if(id != user.getId()){
 			User userToView = this.userDao.getUser(id);
 			postsToView.addAll(userToView.getPostsOfUser());
+			System.out.println(userToView.getPostsOfUser().size());
 			req.setAttribute("userProfileToView", userToView);
 		}else{
 			postsToView.addAll(user.getPostsOfUser());
+			System.out.println(user.getPostsOfUser().size());
 			req.setAttribute("userProfileToView", user);
 		}
 		
+		System.out.println(postsToView.size());
+		
 		if(!searchCategory.equals("All")){
+			List<Post> postsToViewByCat = new ArrayList<Post>();
 			for(int i=0; i<postsToView.size(); i++){
-				if(!postsToView.get(i).getCategory().equals(searchCategory)){
+				if(postsToView.get(i).getCategory().equals(searchCategory)){
 					System.out.println(postsToView.get(i).getCategory());
-				 	postsToView.remove(i);
+					postsToViewByCat.add(postsToView.get(i));
 				}
 			}
+			req.getSession().setAttribute("postsToView", postsToViewByCat);
+			if((postsToViewByCat.size()/posts_on_page) > count_pages){
+				req.setAttribute("next", "true");
+				req.setAttribute("end", count_pages);
+			}else{
+				req.setAttribute("next", "false");
+				req.setAttribute("end", (postsToViewByCat.size()/posts_on_page)+1);
+			}
+			req.setAttribute("showPartList", postsToViewByCat);
+		}else{
+			req.getSession().setAttribute("postsToView", postsToView);
+			if((postsToView.size()/posts_on_page) > count_pages){
+				req.setAttribute("next", "true");
+				req.setAttribute("end", count_pages);
+			}else{
+				req.setAttribute("next", "false");
+				req.setAttribute("end", (postsToView.size()/posts_on_page)+1);
+			}
+			req.setAttribute("showPartList", postsToView);
 		}
 		
-		if((postsToView.size()/posts_on_page) > count_pages){
-			req.setAttribute("next", "true");
-			req.setAttribute("end", count_pages);
-		}else{
-			req.setAttribute("next", "false");
-			req.setAttribute("end", (postsToView.size()/posts_on_page)+1);
-		}
 		
 		req.setAttribute("begin", 1);
 		req.setAttribute("page", 1);
-		req.getSession().setAttribute("postsToView", postsToView);
 		req.getSession().setAttribute("categoryToShow", searchCategory);
 		return "myposts";
 	}
@@ -122,6 +138,21 @@ public class ProfileController {
 		int indexOfLastPost = pageToView*posts_on_page;
 		int numberOfPages = 0;
 		List<Post> myposts = (List<Post>) req.getSession().getAttribute("postsToView");
+		
+		User user = ((UserManager)req.getSession().getAttribute("loggedUser")).getLoggedUser();
+		int id = 0;
+		try{
+			 id = Integer.parseInt(req.getParameter("Id"));
+		}catch(NumberFormatException e){
+			 id = user.getId();
+		}
+		
+		if(id != user.getId()){
+			User userToView = this.userDao.getUser(id);
+			req.setAttribute("userProfileToView", userToView);
+		}else{
+			req.setAttribute("userProfileToView", user);
+		}
 		
 		
 		if(((myposts.size()%posts_on_page)) != 0){
@@ -164,10 +195,8 @@ public class ProfileController {
 		req.setAttribute("begin", begin);
 		req.setAttribute("end", end);
 		req.setAttribute("next", next);
-		req.getSession().setAttribute("toShow", toShow);
-		return "myposts";
-		
-		
+		req.setAttribute("showPartList", toShow);
+		return "myposts";		
 	}
 	
 	

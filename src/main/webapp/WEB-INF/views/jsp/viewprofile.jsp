@@ -111,12 +111,12 @@ input[type=text]:focus {
         		<li><a href="upload">Upload</a></li>
         		<li><a href="followers">Followers</a></li>
         		<li><a href="following">Following</a></li>
-        		<li><a href="myposts">My posts</a></li>
+        		<li><a href="myPosts">My posts</a></li>
     		</c:when>    
     		<c:otherwise>
         		<li><a href="followers?Id=${userProfileToView.id}">Followers</a></li>
         		<li><a href="following?Id=${userProfileToView.id}">Following</a></li>
-        		<li><a href="myposts">Posts</a></li>
+        		<li><a href="myPosts?Id=${userProfileToView.id}">Posts</a></li>
     		</c:otherwise>
 		</c:choose>       
       </ul><br>

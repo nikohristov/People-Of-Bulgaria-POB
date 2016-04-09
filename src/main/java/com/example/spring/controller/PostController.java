@@ -215,6 +215,7 @@ public class PostController {
 	      req.getSession().setAttribute("uploadId", post.getId());
 	      ((List<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post);
 
+	      System.out.println(((HashSet<Post>)req.getServletContext().getAttribute("allPostsByDate")).add(post));
 	      return "redirect:getPost";
 	   }
 

@@ -1,7 +1,10 @@
 package com.example.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,8 +30,9 @@ public class HomePageController {
 	public String goToHomePage(Model model,HttpServletRequest req){
 		System.out.println("LAAAAAAAAAAAAAAAAAA");
 		List<Post> postsToShow = new ArrayList<Post>();
-		List<Post> appPosts = ((List<Post>)req.getServletContext().getAttribute("allPostsByDate"));
-		
+		List<Post> appPosts = new ArrayList<Post>();;
+		appPosts.addAll(((HashSet<Post>)req.getServletContext().getAttribute("allPostsByDate")));
+		Collections.sort(appPosts);
 		if(appPosts.size() < posts_on_page && appPosts.size() > 0){
 			for(int i=0; i<appPosts.size(); i++){
 				postsToShow.add(appPosts.get(i));
@@ -73,8 +77,9 @@ public class HomePageController {
 		int indexOfFirstPost = pageToView*posts_on_page-posts_on_page;
 		int indexOfLastPost = pageToView*posts_on_page;
 		int numberOfPages = 0;
-		List<Post> allPosts = (List<Post>) req.getServletContext().getAttribute("allPostsByDate");
-		
+		List<Post> allPosts = new ArrayList<Post>();;
+		allPosts.addAll((HashSet<Post>) req.getServletContext().getAttribute("allPostsByDate"));
+		Collections.sort(allPosts);
 		
 		if(((allPosts.size()%posts_on_page)) != 0){
 			numberOfPages = ((allPosts.size()/posts_on_page) + 1);
