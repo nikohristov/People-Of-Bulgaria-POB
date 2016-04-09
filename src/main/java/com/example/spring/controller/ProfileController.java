@@ -113,7 +113,11 @@ public class ProfileController {
 				req.setAttribute("end", count_pages);
 			}else{
 				req.setAttribute("next", "false");
+				if(postsToView.size()%posts_on_page == 0){
+					req.setAttribute("end", (postsToView.size()/posts_on_page));
+				}else{
 				req.setAttribute("end", (postsToView.size()/posts_on_page)+1);
+				}
 			}
 			req.setAttribute("showPartList", postsToView);
 		}

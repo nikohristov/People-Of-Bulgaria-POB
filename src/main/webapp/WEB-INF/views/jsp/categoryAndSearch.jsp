@@ -142,10 +142,38 @@ input[type=text]:focus {
 </form>
 <br><br>
 <c:if test="${fn:length(tags) gt 0}">
-&nbsp&nbsp&nbsp&nbsp&nbsp<h2>Tags:</h2>
+&nbsp&nbsp&nbsp&nbsp&nbsp<font size="6">Tags:<c:if test="${tagMessage != null}">&nbsp<c:out value="${tagMessage}"/></c:if></font><br>
 	<c:forEach var="tag" items="${tags}">
-		<font size="4">#<c:out value="${tag}"/></font>&nbsp
+		&nbsp<font size="4">#<c:out value="${tag}"/></font>&nbsp
 	</c:forEach>
+</c:if>
+<c:if test="${fn:length(showByTags) gt 0}">
+	<fmt:parseNumber var="end" type="number" value="${fn:length(showByTags)}" />
+	<c:forEach  varStatus="status" begin="0" end="${end}" step="1">
+				<div class="container">
+				<c:if test="${status.getIndex() % 3 == 0}"><br></c:if>
+				<div class="row">
+		
+					<div class="col-md-4">
+					<fmt:parseNumber var="index" type="number" value="${status.getIndex()}" />
+		
+					<c:if test="${fn:length(showByTags) gt index}">
+				
+					      <c:set var="post" value="${showByTags[index]}"/>
+					      <a href="getPost?picId=${post.id}" class="thumbnail">
+					      <c:set var="title" value="${post.title}"/>
+					        <p><c:out value="${title}" /></p>
+					        <c:set var="title" value="${title}"/>    
+					        <img alt="image"  src="<c:url value="resources/${title}.png"/>">
+					        Likes:<c:out value="${post.countsOfLikes}" />&nbsp&nbspViews:<c:out value="${post.countsOfViews}" />
+					      </a>
+				     </c:if>
+				    </div>
+
+				</div>
+				</div>	    
+			</c:forEach>	
+	
 </c:if>
 <center>
 	

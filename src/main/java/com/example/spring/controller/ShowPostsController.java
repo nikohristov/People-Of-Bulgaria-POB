@@ -1,8 +1,10 @@
 package com.example.spring.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +35,24 @@ public class ShowPostsController {
 		String inputForSearch = request.getParameter("searchTags");
 		
 		if(inputForSearch.trim().equals("")){
-			model.addObject("postForShow", this.postDao.getAllPicsByDate());
+			List<Post> listByDate = new ArrayList<Post>();
+			listByDate.addAll((HashSet<Post>) request.getServletContext().getAttribute("allPostsByDate"));
+			Collections.sort(listByDate);
+			if(listByDate.size() != 0){
+				if((listByDate.size()/posts_on_page) > count_pages){
+					model.addObject("next", "true");
+					model.addObject("end", count_pages);
+				}else{
+					model.addObject("next", "false");
+					model.addObject("end", (listByDate.size()/posts_on_page)+1);
+				}
+			}
+			model.addObject("toShow", listByDate);
+			request.getSession().setAttribute("searchingPosts", listByDate);
+			model.addObject("tagMessage","All");
+			model.addObject("tags", " ");
+			model.addObject("begin", 1);
+			model.addObject("page", 1);
 			return model;
 		}
 		
@@ -44,8 +63,11 @@ public class ShowPostsController {
 		}
 		
 		List<Post> toShow = this.postDao.getAllPicsByTags(tags);
+		if(toShow.size() == 0){
+			model.addObject("tagMessage", "No posts with thease tags.");
+		}
 		this.orderBy("Date", toShow);
-		model.addObject("postForShow", toShow);
+		model.addObject("showByTags", toShow);
 		model.addObject("tags", tags);
 		return model;
 	}
@@ -73,7 +95,11 @@ public class ShowPostsController {
 				model.addObject("end", count_pages);
 			}else{
 				model.addObject("next", "false");
-				model.addObject("end", (postsToView.size()/posts_on_page)+1);
+				if(postsToView.size()%posts_on_page == 0){
+					model.addObject("end", (postsToView.size()/posts_on_page));
+				}else{
+					model.addObject("end", (postsToView.size()/posts_on_page)+1);
+				}
 			}
 		}
 		model.addObject("begin", 1);
